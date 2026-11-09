@@ -390,6 +390,7 @@
       "kernel_surface_grind.mp4": ["曲面磨削", "XZB"],
       "kernel_dcut.mp4": ["D-CUT 内腔", "XZC"],
       "kernel_dcut_quartic.mp4": ["D-CUT 四次内腔", "XZC"],
+      "kernel_dcut_wall.mp4": ["D-CUT 壁面内腔", "XZC"],
       "kernel_micro_delivery.mp4": ["六轴微结构", "XYZABC"],
       "kernel_roll.mp4": ["光辊螺旋槽", "XYZC"],
       "kernel_roll_delivery.mp4": ["光辊交付 Roll1062", "CXZB"],
