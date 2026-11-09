@@ -45,10 +45,11 @@
     const { canvas, ctx, opts } = view;
     view.dpr = Math.min(window.devicePixelRatio || 1, 2);
     if (opts.fullPage) {
-      view.topPad = headerHeight();
+      /* Full viewport so glass sidebar/topbar can reveal the MLA path */
+      view.topPad = 0;
       view.W = window.innerWidth;
-      view.H = Math.max(1, window.innerHeight - view.topPad);
-      canvas.style.top = view.topPad + "px";
+      view.H = Math.max(1, window.innerHeight);
+      canvas.style.top = "0";
       canvas.style.left = "0";
       canvas.style.right = "0";
       canvas.style.bottom = "0";

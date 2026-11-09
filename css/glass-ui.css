@@ -31,13 +31,10 @@ html, body {
     linear-gradient(160deg, #071019 0%, #0a121a 45%, #081018 100%);
 }
 
-/* Live MLA canvas: full page below topbar, behind UI chrome */
+/* Live MLA canvas: full viewport behind glass chrome (incl. sidebar) */
 .bg-mla {
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 58px;
+  inset: 0;
   width: 100%;
   height: auto;
   z-index: 0;
@@ -86,10 +83,6 @@ html, body {
   background: transparent;
 }
 
-.sidebar {
-  background: rgba(10, 16, 22, 0.55) !important;
-}
-
 .sidebar,
 .bottombar,
 .media-stage,
@@ -115,11 +108,14 @@ html, body {
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.15);
 }
 
+/* Sidebar glass: translucent so MLA toolpath shows through */
 .sidebar {
   background:
-    linear-gradient(180deg, rgba(10, 16, 22, 0.72), rgba(8, 12, 18, 0.78));
+    linear-gradient(180deg, rgba(10, 16, 22, 0.28), rgba(8, 12, 18, 0.34)) !important;
   border-right: 1px solid var(--glass-border);
   box-shadow: inset -1px 0 0 rgba(89, 198, 232, 0.08);
+  backdrop-filter: blur(14px) saturate(1.2) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(1.2) !important;
 }
 
 .topbar {
@@ -348,9 +344,13 @@ h2 {
   font-size: 14px;
   padding: 12px 14px;
   gap: 12px;
+  background: rgba(10, 16, 22, 0.18);
+}
+.side-nav button:hover {
+  background: rgba(89, 198, 232, 0.10);
 }
 .side-nav button.is-on {
-  background: linear-gradient(90deg, rgba(200, 16, 46, 0.24), rgba(16, 24, 32, 0.2));
+  background: linear-gradient(90deg, rgba(200, 16, 46, 0.28), rgba(16, 24, 32, 0.12));
   border-color: rgba(226, 24, 63, 0.45);
 }
 .side-nav button small {
