@@ -237,28 +237,38 @@
     }
   });
 
-  /* Global delegated actions */
-  document.addEventListener("click", (e) => {
+  /* Global delegated actions — click + touchend for iOS reliability */
+  let lastUiTs = 0;
+  function onUiActivate(e) {
     const gotoBtn = e.target.closest("[data-goto]");
+    const choice = e.target.closest(".choice, .case-card");
+    const tab = e.target.closest(".case-tabs .tab");
+    if (!gotoBtn && !choice && !tab) return;
+    if (choice && !choice.closest(".slide.is-active, .case-pane.is-on")) return;
+
+    if (e.type === "click" && Date.now() - lastUiTs < 450) return;
+    if (e.type === "touchend") {
+      e.preventDefault();
+      lastUiTs = Date.now();
+    }
+
     if (gotoBtn) {
       pulse(e, true);
       goTo(Number(gotoBtn.dataset.goto));
       return;
     }
-
-    const choice = e.target.closest(".choice, .case-card");
     if (choice) {
       pulse(e, choice.classList.contains("is-on") === false);
       activateChoice(choice);
       return;
     }
-
-    const tab = e.target.closest(".case-tabs .tab");
     if (tab) {
       pulse(e, true);
       activateCaseTab(tab);
     }
-  });
+  }
+  document.addEventListener("click", onUiActivate);
+  document.addEventListener("touchend", onUiActivate, { passive: false });
 
   function activateChoice(btn) {
     const panel = btn.closest("[data-panel]")?.dataset.panel

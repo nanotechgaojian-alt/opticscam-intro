@@ -347,18 +347,26 @@ img, video { display: block; max-width: 100%; }
   padding: 20px 28px 16px;
   opacity: 0;
   visibility: hidden;
-  pointer-events: none;
+  pointer-events: none !important;
   transform: translateX(24px);
   transition: opacity 0.35s var(--ease), transform 0.45s var(--ease), visibility 0s linear 0.35s;
   overflow: auto;
+  z-index: 0;
 }
 .slide.is-active {
   opacity: 1;
   visibility: visible;
-  pointer-events: auto;
+  pointer-events: auto !important;
   transform: none;
   transition-delay: 0s;
   z-index: 2;
+}
+.slide:not(.is-active) button,
+.slide:not(.is-active) a,
+.slide:not(.is-active) video,
+.slide:not(.is-active) .choice,
+.slide:not(.is-active) .case-card {
+  pointer-events: none !important;
 }
 
 .sec-label {
