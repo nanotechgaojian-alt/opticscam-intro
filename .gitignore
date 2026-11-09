@@ -8,3 +8,8 @@ Thumbs.db
 *.tmp
 .vscode/
 .idea/
+
+# Agent skill tooling (local; keep site repo lean)
+.cursor/skills/impeccable/scripts/bin/
+.cursor/hooks.json
+.cursor/agents/

@@ -94,26 +94,51 @@
     });
   }
 
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   /* Page transition with GSAP — overlay never keeps pointer-events */
   function goTo(next) {
     if (busy || next === index || next < 0 || next >= total) return;
     busy = true;
     const from = index;
     const dir = next > from ? 1 : -1;
+
+    if (reduceMotion) {
+      slides[from].classList.remove("is-active", "is-entering");
+      slides[next].classList.add("is-active");
+      index = next;
+      syncChrome();
+      busy = false;
+      return;
+    }
+
     // safety: never leave UI locked if timeline fails
-    const unlock = setTimeout(() => { busy = false; gsap.set(wipe, { opacity: 0 }); }, 2000);
+    const unlock = setTimeout(() => {
+      busy = false;
+      wipe.classList.remove("is-on");
+      gsap.set(wipe, { opacity: 0 });
+    }, 2200);
 
     const tl = gsap.timeline({
       onComplete: () => {
         clearTimeout(unlock);
         busy = false;
+        wipe.classList.remove("is-on");
         gsap.set(wipe, { opacity: 0 });
+        slides[next].classList.remove("is-entering");
       },
     });
 
+    wipe.classList.add("is-on");
     gsap.set(wipe, { opacity: 1 });
+    gsap.fromTo(
+      slides[from],
+      { opacity: 1, x: 0 },
+      { opacity: 0.35, x: dir * -18, duration: 0.28, ease: "power2.in" }
+    );
+
     tl.to(wipePath, {
-      duration: 0.35,
+      duration: 0.32,
       ease: "power3.in",
       attr: {
         d: dir > 0
@@ -122,11 +147,16 @@
       },
     })
       .add(() => {
-        slides[from].classList.remove("is-active");
-        slides[next].classList.add("is-active");
+        slides[from].classList.remove("is-active", "is-entering");
+        gsap.set(slides[from], { clearProps: "opacity,x,transform" });
+        slides[next].classList.add("is-active", "is-entering");
         index = next;
         syncChrome();
-        // reset wipe path opposite side
+        gsap.fromTo(
+          slides[next],
+          { opacity: 0.55, x: dir * 22 },
+          { opacity: 1, x: 0, duration: 0.42, ease: "power3.out" }
+        );
         gsap.set(wipePath, {
           attr: {
             d: dir > 0 ? "M 100 0 H 100 V 100 H 100 Z" : "M 0 0 H 0 V 100 H 0 Z",
@@ -134,7 +164,7 @@
         });
       })
       .to(wipePath, {
-        duration: 0.45,
+        duration: 0.42,
         ease: "power3.out",
         attr: {
           d: dir > 0
@@ -285,14 +315,31 @@
     if (first) activateChoice(first);
   }
 
-  /* Click pulse */
+  /* Click pulse + press feedback */
+  function pressTarget(el) {
+    if (!el) return;
+    el.classList.add("is-press", "is-flash");
+    setTimeout(() => el.classList.remove("is-press"), 160);
+    setTimeout(() => el.classList.remove("is-flash"), 420);
+  }
+
   function pulse(e, alt = false) {
+    const x = e.clientX || window.innerWidth / 2;
+    const y = e.clientY || window.innerHeight / 2;
     const d = document.createElement("span");
     d.className = "burst" + (alt ? " alt" : "");
-    d.style.left = (e.clientX || window.innerWidth / 2) + "px";
-    d.style.top = (e.clientY || window.innerHeight / 2) + "px";
+    d.style.left = x + "px";
+    d.style.top = y + "px";
     clickFx.appendChild(d);
-    setTimeout(() => d.remove(), 560);
+    const ring = document.createElement("span");
+    ring.className = "burst ring" + (alt ? " alt" : "");
+    ring.style.left = x + "px";
+    ring.style.top = y + "px";
+    clickFx.appendChild(ring);
+    pressTarget(e.target && e.target.closest
+      ? e.target.closest("button, .btn, .choice, .case-card, .tab, .nav-btn, .icon-btn")
+      : null);
+    setTimeout(() => { d.remove(); ring.remove(); }, 560);
   }
 
   /* Touch swipe */
@@ -311,27 +358,54 @@
   /* Cover hero: seamless playlist of case animations */
   const hero = document.getElementById("hero-reel");
   const heroCap = document.getElementById("hero-caption");
+  const heroAxis = document.getElementById("hero-axis");
   if (hero && hero.dataset.playlist) {
     const playlist = hero.dataset.playlist.split(",").map((s) => s.trim()).filter(Boolean);
     let hi = 0;
     const labels = {
-      "kernel_fresnel_adaptive.mp4": "菲涅尔自适应 · XZB",
-      "kernel_mla_spiral.mp4": "MLA 螺旋铣削 · XYZABC",
-      "kernel_mla_raster.mp4": "MLA 法向光栅 · XYZB",
-      "kernel_mla_sts.mp4": "MLA 整面慢刀 · XZC",
-      "kernel_fiveaxis_turn.mp4": "自由曲面五轴车削 · XYZBC",
-      "kernel_xyzb_cylinder.mp4": "非球面柱面刨削 · XYZB",
-      "kernel_surface_sts.mp4": "自由曲面慢刀 · XZC",
-      "kernel_dcut.mp4": "D-CUT 内腔 · XZC",
-      "kernel_micro_delivery.mp4": "外圆菲涅尔六轴 · XYZABC",
-      "kernel_roll.mp4": "光辊螺旋槽 · 新参数",
-      "kernel_offaxis_xzc.mp4": "离轴非球面 · XZC",
-      "kernel_profile_virtual.mp4": "虚拟中心轮廓 · XZC",
+      "kernel_fresnel_adaptive.mp4": ["菲涅尔自适应", "XZB"],
+      "kernel_fresnel_nc_adaptive.mp4": ["菲涅尔自适应 NC", "XZB"],
+      "kernel_fresnel_stable.mp4": ["菲涅尔 B 稳定", "XZB"],
+      "kernel_fresnel_fullr_stable.mp4": ["菲涅尔全R稳定", "XZB"],
+      "kernel_fresnel_stable_cover.mp4": ["菲涅尔 B 稳定封面", "XZB"],
+      "kernel_doe_stable.mp4": ["DOE66 全R稳定", "XZB"],
+      "kernel_doe_xyzb.mp4": ["DOE66 尖刀", "XYZB"],
+      "kernel_doe66_xyzb.mp4": ["DOE66 XYZB", "XYZB"],
+      "kernel_doe_xzb.mp4": ["DOE66 法向", "XZB"],
+      "kernel_doe66_xzb.mp4": ["DOE66 XZB", "XZB"],
+      "kernel_mla_spiral.mp4": ["MLA 螺旋铣削", "XYZABC"],
+      "kernel_mla_spiral_unit.mp4": ["MLA 单单元螺旋", "XYZABC"],
+      "kernel_mla_raster.mp4": ["MLA 法向光栅", "XYZB"],
+      "kernel_mla_raster_unit.mp4": ["MLA 单单元光栅", "XYZB"],
+      "kernel_mla_sts.mp4": ["MLA 整面慢刀", "XZC"],
+      "kernel_fiveaxis_turn.mp4": ["自由曲面五轴车削", "XYZBC"],
+      "kernel_xyzb_cylinder.mp4": ["非球面柱面刨削", "XYZB"],
+      "kernel_xyz_ruling.mp4": ["自由曲面三轴刨削", "XYZ"],
+      "kernel_ruling_xyzb.mp4": ["自由曲面 XYZB 刨削", "XYZB"],
+      "kernel_xyzb_ruling.mp4": ["XYZB 刨削变体", "XYZB"],
+      "kernel_xyzcb_ruling.mp4": ["XYZCB 五轴刨削", "XYZCB"],
+      "kernel_surface_sts.mp4": ["自由曲面慢刀", "XZC"],
+      "kernel_surface_fts.mp4": ["自由曲面快刀", "XZC"],
+      "kernel_surface_xz_fts.mp4": ["XZ 快刀伺服", "XZ"],
+      "kernel_surface_grind.mp4": ["曲面磨削", "XZB"],
+      "kernel_dcut.mp4": ["D-CUT 内腔", "XZC"],
+      "kernel_dcut_quartic.mp4": ["D-CUT 四次内腔", "XZC"],
+      "kernel_micro_delivery.mp4": ["六轴微结构", "XYZABC"],
+      "kernel_roll.mp4": ["光辊螺旋槽", "XYZC"],
+      "kernel_roll_delivery.mp4": ["光辊交付 Roll1062", "CXZB"],
+      "kernel_offaxis_xzc.mp4": ["离轴非球面", "XZC"],
+      "kernel_profile_virtual.mp4": ["虚拟中心轮廓", "XZC"],
+      "kernel_profile_xzc.mp4": ["轮廓单元", "XZC"],
+      "kernel_profile_xyzc.mp4": ["阵列车削单元", "XYZC"],
+      "kernel_fresnel_edges_xyzb.mp4": ["菲涅尔尖刀", "XYZB"],
+      "kernel_fresnel_edges_xzb.mp4": ["菲涅尔齿缘", "XZB"],
+      "kernel_sts_nc.mp4": ["原生 STS 预览", "XZC"],
     };
     const loadHero = (i) => {
       hi = ((i % playlist.length) + playlist.length) % playlist.length;
       const src = playlist[hi];
       const name = src.split("/").pop();
+      const meta = labels[name] || [name.replace(/^kernel_|\.mp4$/g, ""), "NC"];
       hero.pause();
       hero.innerHTML = "";
       const s = document.createElement("source");
@@ -342,7 +416,10 @@
       hero.playbackRate = PLAY_RATE;
       hero.load();
       hero.play().then(() => { hero.playbackRate = PLAY_RATE; }).catch(() => {});
-      if (heroCap) heroCap.textContent = `案例连续回放 · ${labels[name] || name} · ${hi + 1}/${playlist.length}`;
+      if (heroCap) {
+        heroCap.textContent = `真实内核 NC · ${meta[0]} · ${meta[1]} · ${hi + 1}/${playlist.length}`;
+      }
+      if (heroAxis) heroAxis.textContent = meta[1];
     };
     hero.loop = false;
     hero.addEventListener("ended", () => loadHero(hi + 1));

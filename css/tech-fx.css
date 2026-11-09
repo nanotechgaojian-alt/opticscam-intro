@@ -45,13 +45,13 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(89, 198, 232, 0.025),
-    rgba(190, 0, 40, 0.03),
+    rgba(89, 198, 232, 0.035),
+    rgba(190, 0, 40, 0.04),
     transparent
   );
   transform: translateX(0);
-  animation: fx-beam-move 11s var(--ease, cubic-bezier(0.22, 1, 0.36, 1)) infinite;
-  opacity: 0.7;
+  animation: fx-beam-move 12s var(--ease, cubic-bezier(0.22, 1, 0.36, 1)) infinite;
+  opacity: 0.75;
 }
 @keyframes fx-beam-move {
   0% { transform: translateX(0); }
@@ -62,7 +62,31 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 85% 75% at 50% 42%, transparent 55%, rgba(0, 0, 0, 0.18) 100%);
+    radial-gradient(ellipse 85% 75% at 50% 42%, transparent 52%, rgba(0, 0, 0, 0.28) 100%),
+    linear-gradient(180deg, rgba(7, 11, 16, 0.15), transparent 18%, transparent 82%, rgba(7, 11, 16, 0.22));
+}
+
+/* Instrument edge ticks */
+.fx-root::before,
+.fx-root::after {
+  content: "";
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-color: rgba(89, 198, 232, 0.22);
+  border-style: solid;
+  z-index: 1;
+}
+.fx-root::before {
+  top: 10px;
+  left: calc(var(--side, 248px) + 12px);
+  border-width: 1px 0 0 1px;
+}
+.fx-root::after {
+  right: 12px;
+  bottom: 68px;
+  border-width: 0 1px 1px 0;
+  border-color: rgba(190, 0, 40, 0.28);
 }
 
 /* HUD corner brackets on media */
@@ -143,11 +167,33 @@
   to { opacity: 1; transform: none; }
 }
 
+/* Choice / tab pop */
+.choice.is-flash,
+.case-card.is-flash,
+.tab.is-flash,
+.btn.is-flash {
+  animation: ctrl-flash 0.38s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+}
+@keyframes ctrl-flash {
+  0% { filter: brightness(1.25); }
+  100% { filter: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fx-beam,
   .media-hud::before,
+  .live-dot,
   .nc-strip span,
-  .slide.is-active .reveal {
+  .slide.is-active .reveal,
+  .slide.is-entering .cover-copy,
+  .slide.is-entering .split-left,
+  .slide.is-entering .cases-layout,
+  .choice.is-flash,
+  .case-card.is-flash,
+  .tab.is-flash,
+  .btn.is-flash,
+  .burst,
+  .burst.ring {
     animation: none !important;
   }
 }
