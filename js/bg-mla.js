@@ -149,17 +149,20 @@
     ctx.arc(tx, ty, 2.8, 0, Math.PI * 2);
     ctx.fill();
 
-    // Page bg: NC scroll at bottom-left of main stage (just right of sidebar).
+    // Page bg: NC scroll at bottom-left of main stage (adapts to sidebar width).
     if (view.opts.fullPage) {
       const nc = data.nc || [];
-      if (nc.length) {
-        const lines = 8;
+      if (nc.length && W >= 560) {
+        const lines = W < 900 ? 5 : 8;
         const lineH = 14;
-        const sideW = 252;
-        const maxChars = 68;
-        ctx.font = "11px JetBrains Mono, ui-monospace, monospace";
-        const x = sideW + 28;
-        const baseY = H - 72 - lines * lineH;
+        const sideRaw = getComputedStyle(document.documentElement).getPropertyValue("--side").trim();
+        const sideW = Math.max(0, parseFloat(sideRaw) || 0);
+        const maxChars = W < 900 ? 48 : 68;
+        const fontSize = W < 900 ? 10 : 11;
+        ctx.font = `${fontSize}px JetBrains Mono, ui-monospace, monospace`;
+        const x = Math.max(16, sideW + 28);
+        const bottomPad = W < 820 ? 120 : 72;
+        const baseY = H - bottomPad - lines * lineH;
         ctx.textAlign = "left";
         for (let i = 0; i < lines; i++) {
           const li = (ncIdx + i) % nc.length;
