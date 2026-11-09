@@ -1,13 +1,13 @@
 (() => {
   "use strict";
 
-  const DATA_URL = "assets/data/mla66_bg_web.json";
+  const DATA_URL = new URL("assets/data/mla66_bg_web.json", document.baseURI).href;
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const COL = {
-    trail: "rgba(57, 255, 20, 0.62)",
-    trailDim: "rgba(57, 255, 20, 0.16)",
+    trail: "rgba(57, 255, 20, 0.88)",
+    trailDim: "rgba(57, 255, 20, 0.28)",
     tip: "#e2183f",
-    tipGlow: "rgba(226, 24, 63, 0.5)",
+    tipGlow: "rgba(226, 24, 63, 0.65)",
     mark: "rgba(238, 243, 247, 0.92)",
   };
 
@@ -181,9 +181,11 @@
     window.addEventListener("resize", resizeAll);
 
     try {
-      const res = await fetch(DATA_URL, { cache: "force-cache" });
+      const res = await fetch(DATA_URL, { cache: "no-cache" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
       data = await res.json();
       idx = 0;
+      views.forEach((v) => resizeView(v));
       requestAnimationFrame(tick);
     } catch (err) {
       console.warn("MLA bg load failed", err);

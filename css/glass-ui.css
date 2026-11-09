@@ -31,7 +31,7 @@ html, body {
     linear-gradient(160deg, #071019 0%, #0a121a 45%, #081018 100%);
 }
 
-/* Live MLA canvas: full page below topbar, above videos, non-blocking */
+/* Live MLA canvas: full page below topbar, behind UI chrome */
 .bg-mla {
   position: fixed;
   left: 0;
@@ -40,10 +40,10 @@ html, body {
   top: 58px;
   width: 100%;
   height: auto;
-  z-index: 4;
-  opacity: 0.72;
+  z-index: 0;
+  opacity: 1;
   pointer-events: none;
-  mix-blend-mode: screen;
+  mix-blend-mode: normal;
 }
 
 .fx-wash {
@@ -78,6 +78,16 @@ html, body {
 .topbar {
   position: relative;
   z-index: 12;
+}
+
+#app {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+}
+
+.sidebar {
+  background: rgba(10, 16, 22, 0.55) !important;
 }
 
 .sidebar,
@@ -243,26 +253,29 @@ h2 {
   mix-blend-mode: normal;
 }
 
+/* Cover: video is the visible player; MLA canvas is a soft underlay */
 .hero-mla {
   position: absolute;
   inset: 0 0 36px 0;
   width: 100%;
   height: auto;
-  z-index: 1;
+  z-index: 0;
   pointer-events: none;
-  opacity: 1;
-  background: #0a1016;
+  opacity: 0.55;
+  background: transparent;
 }
 
 .cover-media .hero-video {
-  position: absolute;
-  inset: 0 0 36px 0;
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
   width: 100%;
+  min-height: 360px;
   height: auto;
   object-fit: contain;
-  z-index: 0;
   opacity: 1;
   background: #0a1016;
+  display: block;
 }
 
 .media-caption {
