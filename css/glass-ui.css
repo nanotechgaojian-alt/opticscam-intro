@@ -21,7 +21,7 @@
   --icon: 22px;
   --icon-lg: 28px;
   --radius: 10px;
-  --side: 252px;
+  /* --side comes from style.css (incl. responsive breakpoints) */
 }
 
 html, body {
