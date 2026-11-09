@@ -227,25 +227,20 @@ h2 {
 
 .media-stage,
 .cover-media {
-  background: rgba(8, 12, 18, 0.28);
+  background: #0a1016;
   border: 1px solid var(--glass-border);
   border-top: 2px solid rgba(226, 24, 63, 0.75);
   border-radius: 12px;
   isolation: isolate;
 }
 
-/* Videos stay translucent so MLA bg reads through */
+/* Video modules stay opaque for clear toolpaths */
 .cover-media video,
 .media-stage video,
 .media-stage img {
-  opacity: 0.42;
-  background: transparent !important;
-  mix-blend-mode: screen;
-}
-
-.cover-media,
-.media-stage {
-  background: rgba(8, 12, 18, 0.12) !important;
+  opacity: 1;
+  background: #0a1016 !important;
+  mix-blend-mode: normal;
 }
 
 .hero-mla {
@@ -255,7 +250,8 @@ h2 {
   height: auto;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.95;
+  opacity: 1;
+  background: #0a1016;
 }
 
 .cover-media .hero-video {
@@ -265,7 +261,8 @@ h2 {
   height: auto;
   object-fit: contain;
   z-index: 0;
-  opacity: 0.28;
+  opacity: 1;
+  background: #0a1016;
 }
 
 .media-caption {
@@ -422,11 +419,11 @@ thead th { background: rgba(12, 20, 28, 0.72); }
   z-index: 2;
 }
 
-/* Keep media readable over living bg */
+/* Keep media stages opaque over living bg */
 .cover-media video,
 .media-stage img,
 .media-stage video {
-  background: rgba(6, 10, 14, 0.65);
+  background: #0a1016;
 }
 
 .split-left,
@@ -462,6 +459,6 @@ thead th { background: rgba(12, 20, 28, 0.72); }
   .body-box,
   .media-stage,
   .cover-media {
-    background: rgba(12, 18, 26, 0.88);
+    background: #0a1016;
   }
 }

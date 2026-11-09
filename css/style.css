@@ -652,10 +652,10 @@ h2 {
   height: 100%;
   min-height: 0;
   object-fit: contain;
-  background: transparent;
+  background: #0a1016;
 }
 .media-stage.has-video video {
-  background: transparent;
+  background: #0a1016;
 }
 .media-caption {
   flex: 0 0 auto;
