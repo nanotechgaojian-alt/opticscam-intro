@@ -149,13 +149,20 @@
     ctx.arc(tx, ty, 2.8, 0, Math.PI * 2);
     ctx.fill();
 
-    // Page bg: NC line scroll only (no extra captions). Hero: brand word only.
+    // Page bg: NC scroll sits bottom-center of main stage (not under sidebar).
     if (view.opts.fullPage) {
       const nc = data.nc || [];
       if (nc.length) {
         const lines = 8;
-        const baseY = H - 22 - lines * 14;
+        const lineH = 14;
+        const sideW = 252;
+        const maxChars = 68;
         ctx.font = "11px JetBrains Mono, ui-monospace, monospace";
+        const sample = "0".repeat(maxChars);
+        const textW = ctx.measureText(sample).width;
+        const stageW = Math.max(1, W - sideW);
+        const x = Math.round(sideW + Math.max(12, (stageW - textW) * 0.5));
+        const baseY = H - 64 - lines * lineH;
         ctx.textAlign = "left";
         for (let i = 0; i < lines; i++) {
           const li = (ncIdx + i) % nc.length;
@@ -163,7 +170,7 @@
           // skip comment-only meta lines that look like captions
           if (/^\(\s*\.\.\./.test(raw)) continue;
           ctx.fillStyle = i === lines - 3 ? COL_NC.nc : COL_NC.ncDim;
-          ctx.fillText(raw.slice(0, 68), 16, baseY + i * 14);
+          ctx.fillText(raw.slice(0, maxChars), x, baseY + i * lineH);
         }
       }
     } else if (view.opts.mark !== false) {
