@@ -139,18 +139,21 @@ img, video { display: block; max-width: 100%; }
 .side-foot {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 11px;
-  color: #c8d2dc;
-  letter-spacing: 0.06em;
-  padding: 12px 8px 0;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 14px 8px 4px;
   border-top: 1px solid var(--line);
+  position: relative;
+  z-index: 6;
 }
-.side-dksh {
-  height: 22px;
+.side-dksh,
+.side-labpro {
+  height: 28px;
   width: auto;
+  max-width: 150px;
   object-fit: contain;
   flex: 0 0 auto;
+  filter: none;
 }
 
 /* Stage */
@@ -181,8 +184,10 @@ img, video { display: block; max-width: 100%; }
   gap: 16px;
   min-height: 58px;
   background:
-    linear-gradient(180deg, rgba(18, 26, 34, 0.96), rgba(10, 14, 18, 0.92));
+    linear-gradient(180deg, rgba(18, 26, 34, 0.98), rgba(10, 14, 18, 0.96));
   box-shadow: 0 1px 0 rgba(89, 198, 232, 0.05);
+  position: relative;
+  z-index: 12;
 }
 .brand-slot {
   display: flex;
@@ -646,10 +651,10 @@ h2 {
   height: 100%;
   min-height: 0;
   object-fit: contain;
-  background: #0c1218;
+  background: transparent;
 }
 .media-stage.has-video video {
-  background: #0c1218;
+  background: transparent;
 }
 .media-caption {
   flex: 0 0 auto;

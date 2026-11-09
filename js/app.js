@@ -255,7 +255,7 @@
       }
       stage.classList.add("has-video");
       v.removeAttribute("poster");
-        v.style.background = "#0c1218";
+        v.style.background = "transparent";
       const applyRate = () => { v.playbackRate = PLAY_RATE; };
       const prev = v.querySelector("source");
       if (prev && prev.getAttribute("src") === video) {
@@ -300,7 +300,7 @@
       img.alt = caption || "";
       stage.insertBefore(img, cap || null);
     }
-    img.style.background = "#070b10";
+    img.style.background = "transparent";
     if (media) img.src = media;
   }
 

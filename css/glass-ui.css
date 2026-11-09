@@ -31,15 +31,19 @@ html, body {
     linear-gradient(160deg, #071019 0%, #0a121a 45%, #081018 100%);
 }
 
-/* Live MLA canvas sits behind UI */
+/* Live MLA canvas: full page below topbar, above videos, non-blocking */
 .bg-mla {
-  position: absolute;
-  inset: 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 58px;
   width: 100%;
-  height: 100%;
-  z-index: 0;
-  opacity: 0.88;
+  height: auto;
+  z-index: 4;
+  opacity: 0.72;
   pointer-events: none;
+  mix-blend-mode: screen;
 }
 
 .fx-wash {
@@ -48,8 +52,8 @@ html, body {
   z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(105deg, rgba(6, 10, 16, 0.55) 0%, rgba(6, 10, 16, 0.18) 42%, rgba(6, 10, 16, 0.42) 100%),
-    radial-gradient(ellipse 80% 70% at 60% 45%, transparent 30%, rgba(5, 8, 12, 0.35) 100%);
+    linear-gradient(105deg, rgba(6, 10, 16, 0.28) 0%, rgba(6, 10, 16, 0.08) 45%, rgba(6, 10, 16, 0.22) 100%),
+    radial-gradient(ellipse 80% 70% at 60% 45%, transparent 35%, rgba(5, 8, 12, 0.2) 100%);
 }
 
 .fx-grid {
@@ -71,8 +75,12 @@ html, body {
 }
 
 /* Glass shells */
+.topbar {
+  position: relative;
+  z-index: 12;
+}
+
 .sidebar,
-.topbar,
 .bottombar,
 .media-stage,
 .cover-media,
@@ -219,12 +227,34 @@ h2 {
 
 .media-stage,
 .cover-media {
-  background:
-    linear-gradient(180deg, rgba(10, 16, 22, 0.35), rgba(8, 12, 18, 0.55)),
-    rgba(8, 12, 18, 0.4);
+  background: rgba(8, 12, 18, 0.28);
   border: 1px solid var(--glass-border);
   border-top: 2px solid rgba(226, 24, 63, 0.75);
   border-radius: 12px;
+  isolation: isolate;
+}
+
+/* Videos stay translucent so MLA bg reads through */
+.cover-media video,
+.media-stage video,
+.media-stage img {
+  opacity: 0.58;
+  background: transparent !important;
+  mix-blend-mode: lighten;
+}
+
+.media-caption {
+  background: rgba(8, 12, 16, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.side-labpro {
+  height: 28px;
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
+  display: block;
 }
 
 .btn {
@@ -328,8 +358,28 @@ thead th { background: rgba(12, 20, 28, 0.72); }
   background: rgba(6, 10, 14, 0.65);
 }
 
+.split-left,
+.cover-copy,
+.cases-layout,
+.close-layout,
+.side-nav,
+.side-brand,
+.side-foot,
+.btn-row,
+.choice-list,
+.choice-grid,
+.case-tabs,
+.case-cards,
+.aside-fill,
+.stat-row,
+.body-box,
+.bottombar {
+  position: relative;
+  z-index: 6;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .bg-mla { opacity: 0.45; }
+  .bg-mla { opacity: 0.4; }
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
