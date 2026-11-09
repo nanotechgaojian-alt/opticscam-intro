@@ -161,7 +161,7 @@
         const fontSize = W < 900 ? 10 : 11;
         ctx.font = `${fontSize}px JetBrains Mono, ui-monospace, monospace`;
         const x = Math.max(16, sideW + 28);
-        const bottomPad = W < 820 ? 120 : 72;
+        const bottomPad = W < 700 ? 130 : 72;
         const baseY = H - bottomPad - lines * lineH;
         ctx.textAlign = "left";
         for (let i = 0; i < lines; i++) {

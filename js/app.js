@@ -18,7 +18,7 @@
   const total = slides.length;
   const PLAY_RATE = 0.48;
   /* Bust browser/CDN cache of previously stripped kernel MP4s */
-  const ASSET_V = "20261109e";
+  const ASSET_V = "20261109m";
   const assetUrl = (u) => {
     if (!u) return u;
     const bare = u.split("?")[0];
@@ -119,83 +119,102 @@
   }
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
 
-  /* Page transition with GSAP — overlay never keeps pointer-events */
+  function resetWipe() {
+    if (!wipe) return;
+    wipe.classList.remove("is-on");
+    wipe.style.opacity = "0";
+    wipe.style.pointerEvents = "none";
+    if (window.gsap) gsap.set(wipe, { opacity: 0 });
+  }
+
+  function hardSwitch(next) {
+    slides.forEach((s, i) => {
+      const on = i === next;
+      s.classList.toggle("is-active", on);
+      s.classList.remove("is-entering");
+      s.style.opacity = "";
+      s.style.transform = "";
+    });
+    index = next;
+    syncChrome();
+    resetWipe();
+    busy = false;
+  }
+
+  /* Page transition — instant on touch/narrow; never leave busy stuck */
   function goTo(next) {
     if (busy || next === index || next < 0 || next >= total) return;
     busy = true;
     const from = index;
     const dir = next > from ? 1 : -1;
+    const instant = reduceMotion || coarsePointer || window.innerWidth <= 900 || !window.gsap;
 
-    if (reduceMotion) {
-      slides[from].classList.remove("is-active", "is-entering");
-      slides[next].classList.add("is-active");
-      index = next;
-      syncChrome();
-      busy = false;
+    if (instant) {
+      hardSwitch(next);
       return;
     }
 
-    // safety: never leave UI locked if timeline fails
-    const unlock = setTimeout(() => {
-      busy = false;
-      wipe.classList.remove("is-on");
-      gsap.set(wipe, { opacity: 0 });
-    }, 2200);
+    const unlock = setTimeout(() => hardSwitch(next), 1600);
 
-    const tl = gsap.timeline({
-      onComplete: () => {
-        clearTimeout(unlock);
-        busy = false;
-        wipe.classList.remove("is-on");
-        gsap.set(wipe, { opacity: 0 });
-        slides[next].classList.remove("is-entering");
-      },
-    });
-
-    wipe.classList.add("is-on");
-    gsap.set(wipe, { opacity: 1 });
-    gsap.fromTo(
-      slides[from],
-      { opacity: 1, x: 0 },
-      { opacity: 0.35, x: dir * -18, duration: 0.28, ease: "power2.in" }
-    );
-
-    tl.to(wipePath, {
-      duration: 0.32,
-      ease: "power3.in",
-      attr: {
-        d: dir > 0
-          ? "M 0 0 H 100 V 100 H 0 Z"
-          : "M 100 0 H 0 V 100 H 100 Z",
-      },
-    })
-      .add(() => {
-        slides[from].classList.remove("is-active", "is-entering");
-        gsap.set(slides[from], { clearProps: "opacity,x,transform" });
-        slides[next].classList.add("is-active", "is-entering");
-        index = next;
-        syncChrome();
-        gsap.fromTo(
-          slides[next],
-          { opacity: 0.55, x: dir * 22 },
-          { opacity: 1, x: 0, duration: 0.42, ease: "power3.out" }
-        );
-        gsap.set(wipePath, {
-          attr: {
-            d: dir > 0 ? "M 100 0 H 100 V 100 H 100 Z" : "M 0 0 H 0 V 100 H 0 Z",
-          },
-        });
-      })
-      .to(wipePath, {
-        duration: 0.42,
-        ease: "power3.out",
-        attr: {
-          d: dir > 0
-            ? "M 100 0 H 100 V 100 H 100 Z"
-            : "M 0 0 H 0 V 100 H 0 Z",
+    try {
+      const tl = gsap.timeline({
+        onComplete: () => {
+          clearTimeout(unlock);
+          busy = false;
+          resetWipe();
+          slides[next].classList.remove("is-entering");
         },
       });
+
+      wipe.classList.add("is-on");
+      gsap.set(wipe, { opacity: 1 });
+      gsap.fromTo(
+        slides[from],
+        { opacity: 1, x: 0 },
+        { opacity: 0.35, x: dir * -18, duration: 0.28, ease: "power2.in" }
+      );
+
+      tl.to(wipePath, {
+        duration: 0.32,
+        ease: "power3.in",
+        attr: {
+          d: dir > 0
+            ? "M 0 0 H 100 V 100 H 0 Z"
+            : "M 100 0 H 0 V 100 H 100 Z",
+        },
+      })
+        .add(() => {
+          slides[from].classList.remove("is-active", "is-entering");
+          gsap.set(slides[from], { clearProps: "opacity,x,transform" });
+          slides[next].classList.add("is-active", "is-entering");
+          index = next;
+          syncChrome();
+          gsap.fromTo(
+            slides[next],
+            { opacity: 0.55, x: dir * 22 },
+            { opacity: 1, x: 0, duration: 0.42, ease: "power3.out" }
+          );
+          gsap.set(wipePath, {
+            attr: {
+              d: dir > 0 ? "M 100 0 H 100 V 100 H 100 Z" : "M 0 0 H 0 V 100 H 0 Z",
+            },
+          });
+        })
+        .to(wipePath, {
+          duration: 0.42,
+          ease: "power3.out",
+          attr: {
+            d: dir > 0
+              ? "M 100 0 H 100 V 100 H 100 Z"
+              : "M 0 0 H 0 V 100 H 0 Z",
+          },
+        });
+    } catch (err) {
+      clearTimeout(unlock);
+      hardSwitch(next);
+    }
   }
 
   prevBtn.addEventListener("click", (e) => { pulse(e); goTo(index - 1); });
@@ -366,16 +385,26 @@
     setTimeout(() => { d.remove(); ring.remove(); }, 560);
   }
 
-  /* Touch swipe */
+  /* Touch swipe — ignore when interacting with controls */
   let tx = null;
-  document.querySelector(".slides").addEventListener("touchstart", (e) => {
+  let ty = null;
+  const slidesRoot = document.querySelector(".slides");
+  slidesRoot.addEventListener("touchstart", (e) => {
+    if (e.target.closest("button, a, input, video, .choice, .case-card, .tab, .nav-btn, .icon-btn")) {
+      tx = null;
+      ty = null;
+      return;
+    }
     tx = e.changedTouches[0].clientX;
+    ty = e.changedTouches[0].clientY;
   }, { passive: true });
-  document.querySelector(".slides").addEventListener("touchend", (e) => {
+  slidesRoot.addEventListener("touchend", (e) => {
     if (tx == null) return;
     const dx = e.changedTouches[0].clientX - tx;
+    const dy = e.changedTouches[0].clientY - ty;
     tx = null;
-    if (Math.abs(dx) < 60) return;
+    ty = null;
+    if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy)) return;
     goTo(index + (dx < 0 ? 1 : -1));
   }, { passive: true });
 
