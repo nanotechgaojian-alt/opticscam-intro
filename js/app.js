@@ -17,7 +17,31 @@
   let busy = false;
   const total = slides.length;
   const PLAY_RATE = 0.48;
+  /* Bust browser/CDN cache of previously stripped kernel MP4s */
+  const ASSET_V = "20261109e";
+  const assetUrl = (u) => {
+    if (!u) return u;
+    const bare = u.split("?")[0];
+    return `${bare}?v=${ASSET_V}`;
+  };
   totalEl.textContent = String(total).padStart(2, "0");
+
+  document.querySelectorAll("video source[src*='assets/videos/']").forEach((s) => {
+    s.setAttribute("src", assetUrl(s.getAttribute("src")));
+  });
+  document.querySelectorAll("video[src*='assets/videos/']").forEach((v) => {
+    v.setAttribute("src", assetUrl(v.getAttribute("src")));
+  });
+  document.querySelectorAll("[data-video],[data-playlist]").forEach((el) => {
+    if (el.dataset.video) el.dataset.video = assetUrl(el.dataset.video);
+    if (el.dataset.playlist) {
+      el.dataset.playlist = el.dataset.playlist
+        .split(",")
+        .map((s) => assetUrl(s.trim()))
+        .filter(Boolean)
+        .join(",");
+    }
+  });
 
   const titles = slides.map((s) => s.dataset.title || "章节");
 
@@ -257,13 +281,13 @@
       v.removeAttribute("poster");
         v.style.background = "transparent";
       const applyRate = () => { v.playbackRate = PLAY_RATE; };
+      const nextSrc = assetUrl(video);
       const prev = v.querySelector("source");
-      if (prev && prev.getAttribute("src") === video) {
+      if (prev && prev.getAttribute("src") === nextSrc) {
         v.play().then(applyRate).catch(() => {});
         return;
       }
       // Crossfade on dark stage: hide only after next frame is ready
-      const nextSrc = video;
       let done = false;
       const commit = () => {
         if (done) return;
@@ -404,8 +428,8 @@
     };
     const loadHero = (i) => {
       hi = ((i % playlist.length) + playlist.length) % playlist.length;
-      const src = playlist[hi];
-      const name = src.split("/").pop();
+      const src = assetUrl(playlist[hi]);
+      const name = src.split("?")[0].split("/").pop();
       const meta = labels[name] || [name.replace(/^kernel_|\.mp4$/g, ""), "NC"];
       hero.pause();
       hero.innerHTML = "";

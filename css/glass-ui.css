@@ -250,12 +250,18 @@ h2 {
     0 12px 36px rgba(0, 0, 0, 0.28);
 }
 
+/* Videos keep full baked titles/NC chrome — never lighten/fade them away */
 .cover-media video,
-.media-stage video,
+.media-stage video {
+  opacity: 1;
+  background: #070b10 !important;
+  mix-blend-mode: normal;
+}
+
 .media-stage img {
-  opacity: 0.72;
+  opacity: 0.92;
   background: transparent !important;
-  mix-blend-mode: lighten;
+  mix-blend-mode: normal;
 }
 
 .hero-mla {
@@ -277,10 +283,10 @@ h2 {
   min-height: 360px;
   height: auto;
   object-fit: contain;
-  opacity: 0.72;
-  background: transparent;
+  opacity: 1;
+  background: #070b10;
   display: block;
-  mix-blend-mode: lighten;
+  mix-blend-mode: normal;
 }
 
 .media-caption {
@@ -407,8 +413,11 @@ thead th { background: rgba(12, 20, 28, 0.72); }
 }
 
 .cover-media video,
-.media-stage img,
 .media-stage video {
+  background: #070b10;
+}
+
+.media-stage img {
   background: transparent;
 }
 
