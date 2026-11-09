@@ -149,7 +149,7 @@
     ctx.arc(tx, ty, 2.8, 0, Math.PI * 2);
     ctx.fill();
 
-    // Page bg: NC scroll sits bottom-center of main stage (not under sidebar).
+    // Page bg: NC scroll at bottom-left of main stage (just right of sidebar).
     if (view.opts.fullPage) {
       const nc = data.nc || [];
       if (nc.length) {
@@ -158,11 +158,8 @@
         const sideW = 252;
         const maxChars = 68;
         ctx.font = "11px JetBrains Mono, ui-monospace, monospace";
-        const sample = "0".repeat(maxChars);
-        const textW = ctx.measureText(sample).width;
-        const stageW = Math.max(1, W - sideW);
-        const x = Math.round(sideW + Math.max(12, (stageW - textW) * 0.5));
-        const baseY = H - 64 - lines * lineH;
+        const x = sideW + 28;
+        const baseY = H - 72 - lines * lineH;
         ctx.textAlign = "left";
         for (let i = 0; i < lines; i++) {
           const li = (ncIdx + i) % nc.length;
