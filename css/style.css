@@ -183,6 +183,8 @@ img, video { display: block; max-width: 100%; }
   align-items: center;
   gap: 16px;
   min-height: 58px;
+  max-height: 64px;
+  overflow: hidden;
   background:
     linear-gradient(180deg, rgba(18, 26, 34, 0.98), rgba(10, 14, 18, 0.96));
   box-shadow: 0 1px 0 rgba(89, 198, 232, 0.05);
@@ -213,6 +215,24 @@ img, video { display: block; max-width: 100%; }
   filter: none;
   mix-blend-mode: normal;
 }
+.brand-ocam-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  max-height: 40px;
+  overflow: hidden;
+}
+.logo-ocam-mark {
+  width: 32px !important;
+  height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: 0 0 32px;
+  display: block;
+}
 .logo-ocam {
   height: 34px;
   width: auto;
@@ -228,6 +248,28 @@ img, video { display: block; max-width: 100%; }
   object-fit: contain;
   opacity: 1;
   filter: none;
+}
+.cover-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.cover-mark {
+  width: 48px !important;
+  height: 48px !important;
+  max-width: 48px !important;
+  max-height: 48px !important;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: 0 0 48px;
+  display: block;
+}
+.cover-logo {
+  height: clamp(42px, 6vw, 64px);
+  width: auto;
+  max-width: min(420px, 70vw);
+  object-fit: contain;
 }
 .bottombar {
   border-top: 1px solid rgba(60, 72, 84, 0.55);
