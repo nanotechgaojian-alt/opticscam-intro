@@ -1,53 +1,73 @@
 (() => {
   "use strict";
 
-  const canvas = document.getElementById("bg-mla");
-  if (!canvas) return;
-  const ctx = canvas.getContext("2d", { alpha: true });
+  const DATA_URL = "assets/data/mla66_bg_web.json";
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  let W = 0;
-  let H = 0;
-  let dpr = 1;
-  let topPad = 58;
-  let data = null;
-  let idx = 0;
-  let ncIdx = 0;
-  let last = 0;
-
   const COL = {
     trail: "rgba(57, 255, 20, 0.62)",
     trailDim: "rgba(57, 255, 20, 0.16)",
     tip: "#e2183f",
     tipGlow: "rgba(226, 24, 63, 0.5)",
-    nc: "rgba(0, 240, 255, 0.62)",
-    ncDim: "rgba(146, 163, 177, 0.38)",
+    mark: "rgba(238, 243, 247, 0.92)",
   };
+
+  let data = null;
+  let idx = 0;
+  let last = 0;
+  const views = [];
 
   function headerHeight() {
     const top = document.querySelector(".topbar");
     return top ? Math.ceil(top.getBoundingClientRect().height) : 58;
   }
 
-  function resize() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    topPad = headerHeight();
-    W = window.innerWidth;
-    H = Math.max(1, window.innerHeight - topPad);
-    canvas.width = Math.floor(W * dpr);
-    canvas.height = Math.floor(H * dpr);
-    canvas.style.width = W + "px";
-    canvas.style.height = H + "px";
-    canvas.style.top = topPad + "px";
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  function makeView(canvas, opts) {
+    const ctx = canvas.getContext("2d", { alpha: true });
+    const view = {
+      canvas,
+      ctx,
+      opts: opts || {},
+      W: 0,
+      H: 0,
+      dpr: 1,
+      topPad: 0,
+    };
+    views.push(view);
+    return view;
   }
 
-  function project(p) {
+  function resizeView(view) {
+    const { canvas, ctx, opts } = view;
+    view.dpr = Math.min(window.devicePixelRatio || 1, 2);
+    if (opts.fullPage) {
+      view.topPad = headerHeight();
+      view.W = window.innerWidth;
+      view.H = Math.max(1, window.innerHeight - view.topPad);
+      canvas.style.top = view.topPad + "px";
+      canvas.style.left = "0";
+      canvas.style.right = "0";
+      canvas.style.bottom = "0";
+      canvas.style.width = "100%";
+      canvas.style.height = view.H + "px";
+    } else {
+      view.topPad = 0;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      view.W = Math.max(1, Math.floor(rect.width));
+      view.H = Math.max(1, Math.floor(rect.height));
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+    }
+    canvas.width = Math.floor(view.W * view.dpr);
+    canvas.height = Math.floor(view.H * view.dpr);
+    ctx.setTransform(view.dpr, 0, 0, view.dpr, 0, 0);
+  }
+
+  function project(view, p) {
     const b = data.bounds;
-    const pad = 0.08;
-    const sx = (W * (1 - 2 * pad)) / Math.max(b.xmax - b.xmin, 1e-6);
-    const sy = (H * (1 - 2 * pad)) / Math.max(b.ymax - b.ymin, 1e-6);
-    const s = Math.min(sx, sy) * 1.05;
+    const pad = optsPad(view);
+    const sx = (view.W * (1 - 2 * pad)) / Math.max(b.xmax - b.xmin, 1e-6);
+    const sy = (view.H * (1 - 2 * pad)) / Math.max(b.ymax - b.ymin, 1e-6);
+    const s = Math.min(sx, sy) * (view.opts.scale || 1.05);
     const cx = (b.xmin + b.xmax) * 0.5;
     const cy = (b.ymin + b.ymax) * 0.5;
     const x = (p.x - cx) * s;
@@ -55,13 +75,20 @@
     const z = ((p.z - b.zmin) / Math.max(b.zmax - b.zmin, 1e-6) - 0.5) * s * 0.38;
     const isoX = (x - y) * 0.866;
     const isoY = (x + y) * 0.35 - z;
-    return [W * 0.52 + isoX, H * 0.48 + isoY];
+    const ox = view.W * (view.opts.ox || 0.52);
+    const oy = view.H * (view.opts.oy || 0.48);
+    return [ox + isoX, oy + isoY];
   }
 
-  function strokeTrail(len, color, width) {
+  function optsPad(view) {
+    return view.opts.pad != null ? view.opts.pad : 0.08;
+  }
+
+  function strokeTrail(view, len, color, width) {
     const path = data.path;
     const n = path.length;
     if (n < 2 || len < 2) return;
+    const { ctx } = view;
     ctx.beginPath();
     ctx.strokeStyle = color;
     ctx.lineWidth = width;
@@ -72,7 +99,7 @@
     for (let k = len; k >= 0; k--) {
       const i = (idx - k + n * 4) % n;
       const p = path[i];
-      const [x, y] = project(p);
+      const [x, y] = project(view, p);
       const wrapJump = prevI >= 0 && ((prevI > i && prevI - i > n / 2) || (i > prevI && i - prevI > n / 2));
       if (!moved || p.kind === 0 || wrapJump) {
         ctx.moveTo(x, y);
@@ -85,18 +112,18 @@
     ctx.stroke();
   }
 
-  function drawFrame() {
+  function drawView(view) {
     if (!data) return;
     const path = data.path;
     const n = path.length;
     if (!n) return;
-
+    const { ctx, W, H } = view;
     ctx.clearRect(0, 0, W, H);
 
     ctx.save();
     ctx.globalCompositeOperation = "lighter";
     for (const c of data.centres) {
-      const [px, py] = project({ x: c.x, y: c.y, z: data.bounds.zmin });
+      const [px, py] = project(view, { x: c.x, y: c.y, z: data.bounds.zmin });
       const g = ctx.createRadialGradient(px, py, 1, px, py, 34);
       g.addColorStop(0, "rgba(89,198,232,0.14)");
       g.addColorStop(1, "rgba(89,198,232,0)");
@@ -107,11 +134,11 @@
     }
     ctx.restore();
 
-    strokeTrail(1100, COL.trailDim, 1.2);
-    strokeTrail(160, COL.trail, 1.75);
+    strokeTrail(view, 1100, COL.trailDim, 1.2);
+    strokeTrail(view, 160, COL.trail, 1.75);
 
     const tip = path[idx % n];
-    const [tx, ty] = project(tip);
+    const [tx, ty] = project(view, tip);
     ctx.beginPath();
     ctx.fillStyle = COL.tipGlow;
     ctx.arc(tx, ty, 8, 0, Math.PI * 2);
@@ -121,17 +148,12 @@
     ctx.arc(tx, ty, 2.8, 0, Math.PI * 2);
     ctx.fill();
 
-    const nc = data.nc || [];
-    if (nc.length) {
-      const lines = 8;
-      const baseY = H - 22 - lines * 14;
-      ctx.font = "11px JetBrains Mono, ui-monospace, monospace";
+    // Only brand word — no NC captions
+    if (view.opts.mark !== false) {
+      ctx.font = `600 ${Math.max(14, Math.round(H * 0.035))}px "Space Grotesk", "Noto Sans SC", sans-serif`;
+      ctx.fillStyle = COL.mark;
       ctx.textAlign = "left";
-      for (let i = 0; i < lines; i++) {
-        const li = (ncIdx + i) % nc.length;
-        ctx.fillStyle = i === lines - 3 ? COL.nc : COL.ncDim;
-        ctx.fillText(String(nc[li]).slice(0, 68), 16, baseY + i * 14);
-      }
+      ctx.fillText("OpticsCAM", 16, 28);
     }
   }
 
@@ -142,30 +164,26 @@
     last = t;
     if (!reduce) {
       const steps = Math.max(1, Math.floor(dt / 16) * 4);
-      const n = data.path.length;
-      const prev = idx;
-      idx = (idx + steps) % n;
-      // seamless NC scroll — advance continuously across wrap
-      const crossed = steps + (idx < prev ? 1 : 0);
-      if (crossed > 0 && (idx % 12 < steps || idx < prev)) {
-        ncIdx = (ncIdx + 1) % Math.max(data.nc.length, 1);
-      }
+      idx = (idx + steps) % data.path.length;
     }
-    drawFrame();
+    views.forEach(drawView);
     requestAnimationFrame(tick);
   }
 
   async function boot() {
-    resize();
-    window.addEventListener("resize", () => {
-      resize();
-      drawFrame();
-    });
+    const pageCanvas = document.getElementById("bg-mla");
+    const heroCanvas = document.getElementById("hero-mla");
+    if (pageCanvas) makeView(pageCanvas, { fullPage: true, scale: 1.05, ox: 0.52, oy: 0.48 });
+    if (heroCanvas) makeView(heroCanvas, { fullPage: false, scale: 1.15, ox: 0.5, oy: 0.52, pad: 0.06 });
+
+    const resizeAll = () => views.forEach((v) => { resizeView(v); drawView(v); });
+    resizeAll();
+    window.addEventListener("resize", resizeAll);
+
     try {
-      const res = await fetch("assets/data/mla66_bg_web.json", { cache: "force-cache" });
+      const res = await fetch(DATA_URL, { cache: "force-cache" });
       data = await res.json();
       idx = 0;
-      ncIdx = 0;
       requestAnimationFrame(tick);
     } catch (err) {
       console.warn("MLA bg load failed", err);

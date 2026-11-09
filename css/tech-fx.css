@@ -131,13 +131,14 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 5px 10px;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  color: var(--path);
-  background: rgba(7, 11, 16, 0.82);
-  border: 1px solid rgba(57, 255, 20, 0.35);
+  padding: 6px 12px;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  background: rgba(7, 11, 16, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   pointer-events: none;
 }
 .media-hud::before {

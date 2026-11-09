@@ -37,11 +37,14 @@
           <img src="assets/logos/DKSH_mark_red.png" alt="DKSH" class="logo-dksh" />
         </div>
         <div class="brand-slot brand-center">
-          <img src="assets/logos/OpticsCAM_dark.png" alt="OpticsCAM" class="logo-ocam" />
+          <div class="brand-ocam-wrap">
+            <img src="assets/logos/OpticsCAM_wechat_avatar_1024.png" alt="" class="logo-ocam-mark" />
+            <img src="assets/logos/OpticsCAM_dark.png" alt="OpticsCAM" class="logo-ocam" />
+          </div>
           <div class="crumb" id="crumb">封面</div>
         </div>
         <div class="brand-slot brand-right">
-          <img src="assets/logos/LabPRO.png" alt="LabPRO" class="logo-labpro" />
+          <img src="assets/logos/LabPRO.svg" alt="LabPRO" class="logo-labpro" />
           <div class="top-actions">
             <button type="button" class="icon-btn" id="btn-fs" title="全屏 (F)">⛶</button>
             <span class="pager"><b id="cur">01</b> / <i id="total">09</i></span>
@@ -56,7 +59,10 @@
           <div class="cover-layout">
             <div class="cover-copy">
               <p class="eyebrow">DKSH LabPRO · Nanotech 650FG 工艺域</p>
-              <h1>OpticsCAM</h1>
+              <div class="cover-brand">
+                <img src="assets/logos/OpticsCAM_wechat_avatar_1024.png" alt="" class="cover-mark" />
+                <img src="assets/logos/OpticsCAM_dark.png" alt="OpticsCAM" class="cover-logo" />
+              </div>
               <p class="version-line">2.0.159 · 超精密光学 CAM</p>
               <p class="lead">把光学面型系数，直接算成可验证的刀轨与 NC</p>
               <p class="sub">面向单点金刚石车削、慢刀/快刀、刨削、阵列与磨削。工程内改系数即可重算，少做外部辅助几何与点云中转。</p>
@@ -75,15 +81,14 @@
             <div class="cover-media">
               <div class="cover-media-meta">
                 <span class="live-dot"></span>
-                <span>KERNEL NC REEL</span>
-                <span class="meta-sep">/</span>
-                <span id="hero-axis">XZB</span>
+                <span>OpticsCAM</span>
               </div>
+              <canvas id="hero-mla" class="hero-mla" aria-label="OpticsCAM MLA toolpath"></canvas>
               <video id="hero-reel" class="hero-video" autoplay muted playsinline
-                data-playlist="assets/videos/kernel_fresnel_adaptive.mp4,assets/videos/kernel_fresnel_nc_adaptive.mp4,assets/videos/kernel_fresnel_stable.mp4,assets/videos/kernel_fresnel_fullr_stable.mp4,assets/videos/kernel_fresnel_stable_cover.mp4,assets/videos/kernel_doe_stable.mp4,assets/videos/kernel_doe_xyzb.mp4,assets/videos/kernel_doe66_xyzb.mp4,assets/videos/kernel_doe_xzb.mp4,assets/videos/kernel_doe66_xzb.mp4,assets/videos/kernel_mla_spiral.mp4,assets/videos/kernel_mla_spiral_unit.mp4,assets/videos/kernel_mla_raster.mp4,assets/videos/kernel_mla_raster_unit.mp4,assets/videos/kernel_mla_sts.mp4,assets/videos/kernel_fiveaxis_turn.mp4,assets/videos/kernel_xyzb_cylinder.mp4,assets/videos/kernel_xyz_ruling.mp4,assets/videos/kernel_ruling_xyzb.mp4,assets/videos/kernel_xyzb_ruling.mp4,assets/videos/kernel_xyzcb_ruling.mp4,assets/videos/kernel_surface_sts.mp4,assets/videos/kernel_surface_fts.mp4,assets/videos/kernel_surface_xz_fts.mp4,assets/videos/kernel_surface_grind.mp4,assets/videos/kernel_dcut.mp4,assets/videos/kernel_dcut_quartic.mp4,assets/videos/kernel_dcut_wall.mp4,assets/videos/kernel_micro_delivery.mp4,assets/videos/kernel_roll.mp4,assets/videos/kernel_roll_delivery.mp4,assets/videos/kernel_offaxis_xzc.mp4,assets/videos/kernel_profile_virtual.mp4,assets/videos/kernel_profile_xzc.mp4,assets/videos/kernel_profile_xyzc.mp4,assets/videos/kernel_fresnel_edges_xyzb.mp4,assets/videos/kernel_fresnel_edges_xzb.mp4,assets/videos/kernel_sts_nc.mp4">
-                <source src="assets/videos/kernel_fresnel_adaptive.mp4" type="video/mp4" />
+                data-playlist="assets/videos/kernel_mla_spiral.mp4,assets/videos/kernel_mla_raster.mp4,assets/videos/kernel_mla_sts.mp4,assets/videos/kernel_fresnel_adaptive.mp4,assets/videos/kernel_fresnel_stable.mp4,assets/videos/kernel_doe_stable.mp4,assets/videos/kernel_fiveaxis_turn.mp4,assets/videos/kernel_xyzb_cylinder.mp4,assets/videos/kernel_xyz_ruling.mp4,assets/videos/kernel_xyzcb_ruling.mp4,assets/videos/kernel_surface_sts.mp4,assets/videos/kernel_surface_fts.mp4,assets/videos/kernel_surface_grind.mp4,assets/videos/kernel_dcut.mp4,assets/videos/kernel_dcut_quartic.mp4,assets/videos/kernel_micro_delivery.mp4,assets/videos/kernel_roll.mp4,assets/videos/kernel_offaxis_xzc.mp4,assets/videos/kernel_profile_virtual.mp4,assets/videos/kernel_sts_nc.mp4">
+                <source src="assets/videos/kernel_mla_spiral.mp4" type="video/mp4" />
               </video>
-              <div class="media-caption" id="hero-caption">真实内核 NC · 多工艺连续回放</div>
+              <div class="media-caption" id="hero-caption">OpticsCAM</div>
             </div>
           </div>
         </section>

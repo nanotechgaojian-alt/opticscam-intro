@@ -59,11 +59,15 @@
     if (!stage || stage.querySelector(".media-hud")) return;
     const hud = document.createElement("div");
     hud.className = "media-hud";
-    hud.textContent = "KERNEL NC · LIVE";
+    hud.textContent = "OpticsCAM";
     stage.appendChild(hud);
     stage.classList.add("is-live");
   }
   document.querySelectorAll(".media-stage, .cover-media").forEach(ensureMediaHud);
+  // Captions: keep brand word only
+  document.querySelectorAll(".media-caption").forEach((el) => {
+    el.textContent = "OpticsCAM";
+  });
 
   function syncChrome() {
     curEl.textContent = String(index + 1).padStart(2, "0");
@@ -237,7 +241,7 @@
 
   function setStageMedia(stage, media, video, caption) {
     const cap = stage.querySelector(".media-caption");
-    if (cap && caption) cap.textContent = caption;
+    if (cap) cap.textContent = "OpticsCAM";
 
     // Prefer video — keep stage dark during swap; never assign PPT as poster
     // (that caused white flash). PPT image colors stay original when shown as img.
@@ -358,55 +362,12 @@
   /* Cover hero: seamless playlist of case animations */
   const hero = document.getElementById("hero-reel");
   const heroCap = document.getElementById("hero-caption");
-  const heroAxis = document.getElementById("hero-axis");
   if (hero && hero.dataset.playlist) {
     const playlist = hero.dataset.playlist.split(",").map((s) => s.trim()).filter(Boolean);
     let hi = 0;
-    const labels = {
-      "kernel_fresnel_adaptive.mp4": ["菲涅尔自适应", "XZB"],
-      "kernel_fresnel_nc_adaptive.mp4": ["菲涅尔自适应 NC", "XZB"],
-      "kernel_fresnel_stable.mp4": ["菲涅尔 B 稳定", "XZB"],
-      "kernel_fresnel_fullr_stable.mp4": ["菲涅尔全R稳定", "XZB"],
-      "kernel_fresnel_stable_cover.mp4": ["菲涅尔 B 稳定封面", "XZB"],
-      "kernel_doe_stable.mp4": ["DOE66 全R稳定", "XZB"],
-      "kernel_doe_xyzb.mp4": ["DOE66 尖刀", "XYZB"],
-      "kernel_doe66_xyzb.mp4": ["DOE66 XYZB", "XYZB"],
-      "kernel_doe_xzb.mp4": ["DOE66 法向", "XZB"],
-      "kernel_doe66_xzb.mp4": ["DOE66 XZB", "XZB"],
-      "kernel_mla_spiral.mp4": ["MLA 螺旋铣削", "XYZABC"],
-      "kernel_mla_spiral_unit.mp4": ["MLA 单单元螺旋", "XYZABC"],
-      "kernel_mla_raster.mp4": ["MLA 法向光栅", "XYZB"],
-      "kernel_mla_raster_unit.mp4": ["MLA 单单元光栅", "XYZB"],
-      "kernel_mla_sts.mp4": ["MLA 整面慢刀", "XZC"],
-      "kernel_fiveaxis_turn.mp4": ["自由曲面五轴车削", "XYZBC"],
-      "kernel_xyzb_cylinder.mp4": ["非球面柱面刨削", "XYZB"],
-      "kernel_xyz_ruling.mp4": ["自由曲面三轴刨削", "XYZ"],
-      "kernel_ruling_xyzb.mp4": ["自由曲面 XYZB 刨削", "XYZB"],
-      "kernel_xyzb_ruling.mp4": ["XYZB 刨削变体", "XYZB"],
-      "kernel_xyzcb_ruling.mp4": ["XYZCB 五轴刨削", "XYZCB"],
-      "kernel_surface_sts.mp4": ["自由曲面慢刀", "XZC"],
-      "kernel_surface_fts.mp4": ["自由曲面快刀", "XZC"],
-      "kernel_surface_xz_fts.mp4": ["XZ 快刀伺服", "XZ"],
-      "kernel_surface_grind.mp4": ["曲面磨削", "XZB"],
-      "kernel_dcut.mp4": ["D-CUT 内腔", "XZC"],
-      "kernel_dcut_quartic.mp4": ["D-CUT 四次内腔", "XZC"],
-      "kernel_dcut_wall.mp4": ["D-CUT 壁面内腔", "XZC"],
-      "kernel_micro_delivery.mp4": ["六轴微结构", "XYZABC"],
-      "kernel_roll.mp4": ["光辊螺旋槽", "XYZC"],
-      "kernel_roll_delivery.mp4": ["光辊交付 Roll1062", "CXZB"],
-      "kernel_offaxis_xzc.mp4": ["离轴非球面", "XZC"],
-      "kernel_profile_virtual.mp4": ["虚拟中心轮廓", "XZC"],
-      "kernel_profile_xzc.mp4": ["轮廓单元", "XZC"],
-      "kernel_profile_xyzc.mp4": ["阵列车削单元", "XYZC"],
-      "kernel_fresnel_edges_xyzb.mp4": ["菲涅尔尖刀", "XYZB"],
-      "kernel_fresnel_edges_xzb.mp4": ["菲涅尔齿缘", "XZB"],
-      "kernel_sts_nc.mp4": ["原生 STS 预览", "XZC"],
-    };
     const loadHero = (i) => {
       hi = ((i % playlist.length) + playlist.length) % playlist.length;
       const src = playlist[hi];
-      const name = src.split("/").pop();
-      const meta = labels[name] || [name.replace(/^kernel_|\.mp4$/g, ""), "NC"];
       hero.pause();
       hero.innerHTML = "";
       const s = document.createElement("source");
@@ -417,10 +378,7 @@
       hero.playbackRate = PLAY_RATE;
       hero.load();
       hero.play().then(() => { hero.playbackRate = PLAY_RATE; }).catch(() => {});
-      if (heroCap) {
-        heroCap.textContent = `真实内核 NC · ${meta[0]} · ${meta[1]} · ${hi + 1}/${playlist.length}`;
-      }
-      if (heroAxis) heroAxis.textContent = meta[1];
+      if (heroCap) heroCap.textContent = "OpticsCAM";
     };
     hero.loop = false;
     hero.addEventListener("ended", () => loadHero(hi + 1));

@@ -214,16 +214,17 @@ img, video { display: block; max-width: 100%; }
   mix-blend-mode: normal;
 }
 .logo-ocam {
-  height: 36px;
+  height: 34px;
   width: auto;
-  max-width: min(360px, 44vw);
+  max-width: min(300px, 36vw);
   object-fit: contain;
   opacity: 1;
   filter: none;
 }
 .logo-labpro {
-  height: 32px;
+  height: 30px;
   width: auto;
+  max-width: 120px;
   object-fit: contain;
   opacity: 1;
   filter: none;
@@ -615,12 +616,12 @@ h2 {
   display: flex;
   flex-direction: column;
 }
-.cover-media { min-height: 440px; }
+.cover-media { min-height: 440px; position: relative; }
 .cover-media-meta {
   position: absolute;
   top: 12px;
   left: 12px;
-  z-index: 4;
+  z-index: 5;
   display: flex;
   align-items: center;
   gap: 8px;
