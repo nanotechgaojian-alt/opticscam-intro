@@ -1,0 +1,10 @@
+# Generated / working caches (not needed for the web site)
+assets/_frames*/
+assets/_*/
+**/__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+*.tmp
+.vscode/
+.idea/

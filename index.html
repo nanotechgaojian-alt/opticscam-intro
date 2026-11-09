@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpticsCAM 2.0.159 · 产品介绍</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Space+Grotesk:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/tech-fx.css" />
+</head>
+<body>
+  <div class="fx-root" aria-hidden="true">
+    <div class="fx-grid"></div>
+    <div class="fx-scan"></div>
+    <div class="fx-beam"></div>
+    <div class="fx-vignette"></div>
+  </div>
+  <div id="app">
+    <aside class="sidebar">
+      <div class="side-brand">
+        <em class="ver-chip">OpticsCAM 2.0.159</em>
+        <span class="side-brand-note">Nanotech 650FG 工艺内核</span>
+      </div>
+      <nav class="side-nav" id="side-nav" aria-label="章节"></nav>
+      <div class="side-foot">
+        <img src="assets/logos/DKSH_mark_red.png" alt="DKSH" class="side-dksh" />
+        <span>LabPRO</span>
+      </div>
+    </aside>
+
+    <main class="stage">
+      <header class="topbar" aria-label="品牌页头">
+        <div class="brand-slot brand-left">
+          <img src="assets/logos/DKSH_mark_red.png" alt="DKSH" class="logo-dksh" />
+        </div>
+        <div class="brand-slot brand-center">
+          <img src="assets/logos/OpticsCAM_dark.png" alt="OpticsCAM" class="logo-ocam" />
+          <div class="crumb" id="crumb">封面</div>
+        </div>
+        <div class="brand-slot brand-right">
+          <img src="assets/logos/LabPRO.png" alt="LabPRO" class="logo-labpro" />
+          <div class="top-actions">
+            <button type="button" class="icon-btn" id="btn-fs" title="全屏 (F)">⛶</button>
+            <span class="pager"><b id="cur">01</b> / <i id="total">09</i></span>
+          </div>
+        </div>
+      </header>
+
+      <div class="slides" id="slides">
+
+        <!-- 0 Cover -->
+        <section class="slide is-active" data-id="0" data-title="封面">
+          <div class="cover-layout">
+            <div class="cover-copy">
+              <p class="eyebrow">DKSH · LabPRO · 单点金刚石车削工艺内核</p>
+              <h1>OpticsCAM</h1>
+              <p class="lead">让光学设计参数成为可验证的加工方案</p>
+              <p class="sub">软件介绍与应用案例 · 参数与策略驱动，减少几何准备</p>
+              <div class="btn-row">
+                <button type="button" class="btn primary" data-goto="1">开始介绍</button>
+                <button type="button" class="btn ghost" data-goto="6">查看案例动画</button>
+              </div>
+            </div>
+            <div class="cover-media">
+              <video id="hero-reel" class="hero-video" autoplay muted playsinline
+                data-playlist="assets/videos/kernel_fresnel_adaptive.mp4,assets/videos/kernel_mla_spiral.mp4,assets/videos/kernel_mla_raster.mp4,assets/videos/kernel_mla_sts.mp4,assets/videos/kernel_fiveaxis_turn.mp4,assets/videos/kernel_xyzb_cylinder.mp4,assets/videos/kernel_surface_sts.mp4,assets/videos/kernel_dcut.mp4,assets/videos/kernel_micro_delivery.mp4,assets/videos/kernel_roll.mp4,assets/videos/kernel_offaxis_xzc.mp4,assets/videos/kernel_profile_virtual.mp4">
+                <source src="assets/videos/kernel_fresnel_adaptive.mp4" type="video/mp4" />
+              </video>
+              <div class="media-caption" id="hero-caption">案例刀轨连续回放 · 无缝循环</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 1 Why -->
+        <section class="slide" data-id="1" data-title="现场痛点">
+          <div class="split">
+            <div class="split-left">
+              <div class="sec-label">01 · 为什么需要 OpticsCAM</div>
+              <h2>零件越复杂，编程准备往往越繁琐</h2>
+              <p class="desc">面向非球面、自由曲面、菲涅尔、衍射、阵列与微结构。开发依据来自现场单点金刚石车床编程经验。</p>
+              <div class="choice-list" data-panel="why">
+                <button type="button" class="choice is-on" data-key="nano"
+                  data-media="assets/shots/why_nanocam4_ui.png"
+                  data-caption="NanoCAM4 界面：Steady-Z / 导引曲线与外部几何准备示例"
+                  data-body="复杂件常需外部辅助曲面 / 辅助曲线，步骤多、切换频繁。改几何往往要重建辅助。">
+                  <span class="k">A</span>
+                  <span>
+                    <strong>NanoCAM4</strong>
+                    <small>外部辅助几何多</small>
+                  </span>
+                </button>
+                <button type="button" class="choice" data-key="diff"
+                  data-media="assets/shots/why_diffsys_axes.png"
+                  data-caption="DIFFSYS：轴与 2D/3D 模式设置（点云转换链路长）"
+                  data-body="常依赖点云或中间数据转换，精度有损耗，多轴自主性相对受限，回改成本高。">
+                  <span class="k">B</span>
+                  <span>
+                    <strong>DIFFSYS</strong>
+                    <small>点云转换链路</small>
+                  </span>
+                </button>
+                <button type="button" class="choice" data-key="ocam"
+                  data-media="assets/shots/flow_param_array.png"
+                  data-caption="OpticsCAM：参数阵列可直接转入加工策略"
+                  data-body="把常用工艺沉淀为可复用参数与策略，工程内改系数/姿态后重算，工程师聚焦刀具、姿态与工艺判断。">
+                  <span class="k">C</span>
+                  <span>
+                    <strong>OpticsCAM</strong>
+                    <small>参数与策略驱动</small>
+                  </span>
+                </button>
+              </div>
+              <div class="tag-row">
+                <span>非球面</span><span>自由曲面</span><span>菲涅尔</span><span>衍射</span><span>阵列</span><span>微结构</span>
+              </div>
+              <div class="body-box" data-body-for="why">复杂件常需外部辅助曲面 / 辅助曲线，步骤多、切换频繁。改几何往往要重建辅助。</div>
+              <div class="aside-fill">
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18V7l8-3 8 3v11l-8 3z" stroke="currentColor" stroke-width="1.5"/><path d="M4 7l8 3 8-3" stroke="currentColor" stroke-width="1.2" opacity=".5"/></svg></div>
+                  <strong>几何准备链</strong>
+                  <p>辅助面 / 点云转换步骤多，改一处常牵动整条链路。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6"/></svg></div>
+                  <strong>参数直达策略</strong>
+                  <p>OpticsCAM 把面型系数沉淀为可复用工艺入口。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.5"/></svg></div>
+                  <strong>现场迭代</strong>
+                  <p>同一工程内改系数 / 姿态后重算刀轨与 NC。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16c4-10 12-10 16 0" stroke="currentColor" stroke-width="1.6"/><path d="M7 16h10" stroke="currentColor" stroke-width="1.3"/></svg></div>
+                  <strong>超精密对象</strong>
+                  <p>非球面、菲涅尔、衍射、阵列与微结构同域覆盖。</p>
+                </article>
+              </div>
+            </div>
+            <div class="split-right">
+              <div class="media-stage" data-stage="why">
+                <img src="assets/shots/why_nanocam4_ui.png" alt="对比示意" />
+                <div class="media-caption">NanoCAM4 界面：Steady-Z / 导引曲线与外部几何准备示例</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2 Flow -->
+        <section class="slide" data-id="2" data-title="工作流程">
+          <div class="split">
+            <div class="split-left">
+              <div class="sec-label">02 · 工作台流程</div>
+              <h2>设计 → 加工 → 分析，同一工程闭环</h2>
+              <div class="choice-list" data-panel="flow">
+                <button type="button" class="choice is-on" data-key="design"
+                  data-media="assets/shots/flow_param_array.png"
+                  data-caption="参数化微透镜阵列：系数绘制并可转入策略"
+                  data-body="非球面 / 菲涅尔 / 衍射 / SPP；STEP·IGES·DXF 直读；点云拟合与自由曲面补正。参数可直接转入加工策略。">
+                  <span class="k">1</span>
+                  <span><strong>设计与导入</strong><small>系数 / CAD / 点云</small></span>
+                </button>
+                <button type="button" class="choice" data-key="cut"
+                  data-media="assets/shots/process_turn.jpg"
+                  data-caption="轮廓车削 / 多轴策略入口与刀轨预览"
+                  data-body="XZ·XZB·XZC·XYZC·XYZBC；慢刀/快刀；磨削·刨削·阵列·光辊·D-CUT。1:1 接触与 B 姿态联动检查。">
+                  <span class="k">2</span>
+                  <span><strong>加工与仿真</strong><small>策略 / 姿态 / 刀轨</small></span>
+                </button>
+                <button type="button" class="choice" data-key="ana"
+                  data-media="assets/shots/analyze_form.jpg"
+                  data-caption="面型分析：评价区域、热图与三维形貌"
+                  data-body="Nanotech 650FG 后处理；面型 PV/RMS；系数补正与多轮 NC 补正；刀路动态与结构响应。">
+                  <span class="k">3</span>
+                  <span><strong>后处理与补正</strong><small>NC / 测量 / 重算</small></span>
+                </button>
+              </div>
+              <div class="body-box" data-body-for="flow">非球面 / 菲涅尔 / 衍射 / SPP；STEP·IGES·DXF 直读；点云拟合与自由曲面补正。参数可直接转入加工策略。</div>
+              <div class="nc-strip"><span>XZB G01 X12.430 Z-0.218 B+4.62 · XZC C128.40 X18.27 Z0.189 · XYZABC C-61.17 X65.93 Y102.96 Z-16.12 B1.04 A31.10 ·&nbsp;&nbsp;</span></div>
+              <div class="aside-fill">
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><path d="M3 18c4-12 14-12 18 0" stroke="currentColor" stroke-width="1.6"/></svg></div>
+                  <strong>① 设计</strong>
+                  <p>系数面 / CAD / 点云进入同一工作台。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12h6l3-6 3 12 2-6h2" stroke="currentColor" stroke-width="1.6"/></svg></div>
+                  <strong>② 加工</strong>
+                  <p>策略、姿态、刀轨与 1:1 接触检查。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18V6M4 18h16" stroke="currentColor" stroke-width="1.5"/><path d="M7 14l4-5 3 3 5-7" stroke="currentColor" stroke-width="1.5"/></svg></div>
+                  <strong>③ 分析</strong>
+                  <p>面型、补正、NC 预览回到原工程。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="5" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 12h8M8 15h5" stroke="currentColor" stroke-width="1.4"/></svg></div>
+                  <strong>后处理</strong>
+                  <p>Nanotech 650FG 宏与多轴 NC 输出。</p>
+                </article>
+              </div>
+            </div>
+            <div class="split-right">
+              <div class="media-stage" data-stage="flow">
+                <img src="assets/shots/flow_param_array.png" alt="流程示意" />
+                <div class="media-caption">参数化微透镜阵列：系数绘制并可转入策略</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3 Design -->
+        <section class="slide" data-id="3" data-title="光学设计">
+          <div class="split">
+            <div class="split-left">
+              <div class="sec-label">03 · 光学面设计</div>
+              <h2>从系数输入到截面核查</h2>
+              <div class="choice-grid" data-panel="design">
+                <button type="button" class="choice is-on" data-key="asp"
+                  data-media="assets/shots/design_asphere.png"
+                  data-video="assets/videos/kernel_offaxis_xzc.mp4"
+                  data-caption="离轴非球面 · 交付案例 17 · XZC 真实刀轨"
+                  data-body="偶次非球面、离轴、双锥、环曲面；联看矢高、斜率、截面后送入策略。">
+                  <span class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M3 18c4-12 14-12 18 0" stroke="currentColor" stroke-width="1.8"/><path d="M3 18h18" stroke="currentColor" stroke-width="1.2" opacity=".4"/></svg></span>
+                  <span><strong>非球面 / 离轴</strong></span>
+                </button>
+                <button type="button" class="choice" data-key="fr"
+                  data-media="assets/shots/design_fresnel.png"
+                  data-video="assets/videos/kernel_fresnel_edges_xzb.mp4"
+                  data-caption="菲涅尔齿缘 · 交付案例 02 · XZB NC"
+                  data-body="按齿数/节距/环带分齿，叠加基面与拔模角，放大检查齿形过渡。">
+                  <span class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M2 18h4l2-10 2 10h4l2-7 2 7h4" stroke="currentColor" stroke-width="1.6"/></svg></span>
+                  <span><strong>菲涅尔</strong></span>
+                </button>
+                <button type="button" class="choice" data-key="diff"
+                  data-media="assets/shots/poster_kinoform.png"
+                  data-video="assets/videos/kernel_micro_delivery.mp4"
+                  data-caption="Wave25 · 25条波形沟槽 · XYZABC"
+                  data-body="Kinoform、波带片、螺旋相位板；连续或 N 级阶梯，径向分度与六轴姿态联动。">
+                  <span class="ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg></span>
+                  <span><strong>六轴微结构加工</strong></span>
+                </button>
+                <button type="button" class="choice" data-key="poly"
+                  data-media="assets/shots/poster_freeform.png"
+                  data-video="assets/videos/kernel_surface_sts.mp4"
+                  data-caption="多项式自由曲面 · 交付案例 07 · XZC STS"
+                  data-body="XY 幂、Fringe、Qcon/Qbfs；矢高热图、截面与矢高表同一工作台。">
+                  <span class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M3 16c3-10 7-10 9-2s5 12 9 2" stroke="currentColor" stroke-width="1.6"/></svg></span>
+                  <span><strong>多项式面</strong></span>
+                </button>
+                <button type="button" class="choice" data-key="cad"
+                  data-media="assets/shots/flow_workbench.jpg"
+                  data-caption="二维 DXF / 三维 STEP·IGES 选面建模"
+                  data-body="轮廓导入与方向校对；拉伸扫掠放样；原生修剪边界选面进入策略。">
+                  <span class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18V7l8-3 8 3v11l-8 3z" stroke="currentColor" stroke-width="1.5"/><path d="M4 7l8 3 8-3M12 10v11" stroke="currentColor" stroke-width="1.2" opacity=".5"/></svg></span>
+                  <span><strong>二维 / 三维</strong></span>
+                </button>
+                <button type="button" class="choice" data-key="cloud"
+                  data-media="assets/shots/poster_comp.png"
+                  data-caption="点云拟合与自由曲面补正接 XZC"
+                  data-body="XZ/XYZ/极坐标拟合；Chebyshev 或高斯 RBF；补正面接入加工并可重算。">
+                  <span class="ico"><svg viewBox="0 0 24 24" fill="none"><g fill="currentColor"><circle cx="5" cy="14" r="1"/><circle cx="9" cy="9" r="1"/><circle cx="12" cy="15" r="1"/><circle cx="16" cy="8" r="1"/><circle cx="19" cy="13" r="1"/></g><path d="M4 17c4-8 12-8 16 0" stroke="currentColor" stroke-width="1.3" opacity=".5"/></svg></span>
+                  <span><strong>点云补正</strong></span>
+                </button>
+              </div>
+              <div class="stat-row">
+                <div class="stat"><b>12+</b><span>面型族</span></div>
+                <div class="stat"><b>CAD</b><span>STEP/IGES</span></div>
+                <div class="stat"><b>RBF</b><span>点云补正</span></div>
+              </div>
+              <div class="body-box" data-body-for="design">偶次非球面、离轴、双锥、环曲面；联看矢高、斜率、截面后送入策略。</div>
+              <div class="pulse-rail">
+                <i>R / K / 多项式</i><i>菲涅尔分齿</i><i>六轴微结构加工</i><i>Zernike</i><i>Forbes Q</i><i>DXF→策略</i>
+              </div>
+              <div class="nc-strip"><span>六轴微结构 XYZABC · G01 C-61.174 X65.933 Y102.965 Z-16.125 B1.044 A31.106 · 词序 C X Y Z B A ·&nbsp;&nbsp;</span></div>
+              <div class="aside-fill">
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><path d="M3 18c4-12 14-12 18 0" stroke="currentColor" stroke-width="1.6"/></svg></div>
+                  <strong>截面联查</strong>
+                  <p>矢高、斜率、可行性在同一视图核对。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v18M5 8h14M7 16h10" stroke="currentColor" stroke-width="1.5"/></svg></div>
+                  <strong>六轴微结构</strong>
+                  <p>衍射 / SPP 结构可直送多轴刨削策略。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16v10H4z" stroke="currentColor" stroke-width="1.5"/><path d="M8 11h8" stroke="currentColor" stroke-width="1.4"/></svg></div>
+                  <strong>原生 CAD</strong>
+                  <p>STEP/IGES 保留修剪边界进入策略。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><g fill="currentColor"><circle cx="6" cy="14" r="1.2"/><circle cx="12" cy="9" r="1.2"/><circle cx="18" cy="13" r="1.2"/></g></svg></div>
+                  <strong>点云闭环</strong>
+                  <p>拟合残差与补正面可接回 XZC。</p>
+                </article>
+              </div>
+            </div>
+            <div class="split-right">
+              <div class="media-stage" data-stage="design">
+                <img src="assets/shots/design_asphere.png" alt="设计" />
+                <div class="media-caption">非球面工作台：系数、面形与可行性检查同屏</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4 Process -->
+        <section class="slide" data-id="4" data-title="加工策略">
+          <div class="split">
+            <div class="split-left">
+              <div class="sec-label">04 · 专用加工策略</div>
+              <h2>按结构选择轴系与工艺</h2>
+              <div class="choice-list" data-panel="process">
+                <button type="button" class="choice is-on" data-key="turn"
+                  data-media="assets/shots/poster_bmodes.png"
+                  data-video="assets/videos/kernel_fresnel_adaptive.mp4"
+                  data-caption="XZB 法向跟随 · dense48 自适应接触 · NC 同步"
+                  data-body="XZ 两轴轮廓；XZB 逐齿与法向跟随；B 姿态与接触点同屏。">
+                  <span class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12h6l3-6 3 12 2-6h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+                  <span><strong>轮廓车削 · 法向跟随</strong><small>XZB 自适应</small></span>
+                </button>
+                <button type="button" class="choice" data-key="servo"
+                  data-media="assets/shots/poster_freeform.png"
+                  data-video="assets/videos/kernel_surface_fts.mp4"
+                  data-caption="自由曲面快刀 · 交付案例 07 · XZC FTS"
+                  data-body="快刀 XZC + CMP；NC 合同 C X Z。与慢刀 STS 案例参数不同。">
+                  <span class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16c2-8 6-8 8 0s6 8 8 0" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="8" r="2" fill="currentColor"/></svg></span>
+                  <span><strong>快刀伺服 FTS</strong><small>XZC</small></span>
+                </button>
+                <button type="button" class="choice" data-key="grind"
+                  data-media="assets/shots/case_grind.jpg"
+                  data-video="assets/videos/kernel_surface_grind.mp4"
+                  data-caption="曲面磨削 · 交付案例 09 · XZB 砂轮"
+                  data-body="交付案例 09 真实 XZB 磨削 NC；与示意多层动画参数分离。">
+                  <span class="ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M12 16v4M8 20h8" stroke="currentColor" stroke-width="1.6"/></svg></span>
+                  <span><strong>XZB 曲面磨削</strong><small>案例 09</small></span>
+                </button>
+                <button type="button" class="choice" data-key="xyzb"
+                  data-media="assets/shots/poster_xyzb.png"
+                  data-video="assets/videos/kernel_xyzb_cylinder.mp4"
+                  data-caption="XYZB 柱面刨削 · 非球面柱面内核 NC（X Y Z B）"
+                  data-body="3D 类型曲面·非球面柱面（aspheric_cylinder.ots）；OpticsCAM ruling_core 真实 XYZB 刀轨与 NC。">
+                  <span class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16v3H4zM4 14h16v3H4z" stroke="currentColor" stroke-width="1.5"/><path d="M7 7v10M17 7v10" stroke="currentColor" stroke-width="1.3" opacity=".55"/></svg></span>
+                  <span><strong>XYZB 柱面刨削</strong><small>X Y Z B</small></span>
+                </button>
+                <button type="button" class="choice" data-key="fiveaxis"
+                  data-media="assets/shots/poster_array.png"
+                  data-video="assets/videos/kernel_fiveaxis_turn.mp4"
+                  data-caption="自由曲面五轴车削 · XYZBC · C 展开三维"
+                  data-body="3D 自由曲面五轴车削；C 极坐标展开为等轴测刀轨；阵列三种策略见「编程案例」。">
+                  <span class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16v3H4zM4 14h16v3H4z" stroke="currentColor" stroke-width="1.5"/></svg></span>
+                  <span><strong>五轴车削</strong><small>XYZBC</small></span>
+                </button>
+                <button type="button" class="choice" data-key="dcut"
+                  data-media="assets/shots/poster_dcut.png"
+                  data-video="assets/videos/kernel_dcut.mp4"
+                  data-caption="D-CUT · 内腔真实刀轨"
+                  data-body="内腔刀位；XZC/XYZC；法向插补误差提示；不可达区域同台复核。">
+                  <span class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M5 8h14v10H5z" stroke="currentColor" stroke-width="1.5"/><path d="M8 12c2 3 6 3 8 0" stroke="currentColor" stroke-width="1.5"/></svg></span>
+                  <span><strong>D-CUT</strong><small>真实刀轨</small></span>
+                </button>
+              </div>
+              <div class="stat-row">
+                <div class="stat"><b>6轴</b><span>650FG 后处理</span></div>
+                <div class="stat"><b>NC</b><span>行级联动</span></div>
+                <div class="stat"><b>1:1</b><span>接触核查</span></div>
+              </div>
+              <div class="body-box" data-body-for="process">XZ 两轴轮廓；XZB 逐齿与法向跟随；XZC 联动；C 轴虚拟中心与 XYZC 阵列车削。</div>
+              <div class="pulse-rail">
+                <i>XZB 法向</i><i>XZC 慢刀</i><i>MLA 螺旋/光栅/STS</i><i>XYZABC</i><i>D-CUT</i>
+              </div>
+              <div class="nc-strip"><span>D-CUT XZC · C72.500 X18.226 Z0.103 · MLA螺旋 XYZABC · MLA光栅 XYZB · MLA慢刀 XZC C5. X5.550 Z0.351 ·&nbsp;&nbsp;</span></div>
+              <div class="aside-fill">
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12h6l3-6 3 12 2-6h2" stroke="currentColor" stroke-width="1.6"/></svg></div>
+                  <strong>姿态跟随</strong>
+                  <p>B 稳定 / 自适应与接触点同屏核对。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16c2-8 6-8 8 0s6 8 8 0" stroke="currentColor" stroke-width="1.6"/></svg></div>
+                  <strong>伺服刀轨</strong>
+                  <p>慢刀螺旋与快刀 CMP 表同步输出。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="6" stroke="currentColor" stroke-width="1.5"/></svg></div>
+                  <strong>磨削五轴</strong>
+                  <p>砂轮法向 PTC 与 XYZBC 车削。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><path d="M5 8h14v10H5z" stroke="currentColor" stroke-width="1.5"/><path d="M8 12c2 3 6 3 8 0" stroke="currentColor" stroke-width="1.5"/></svg></div>
+                  <strong>D-CUT</strong>
+                  <p>内腔真实刀位回放 · XZC / XYZC。</p>
+                </article>
+              </div>
+            </div>
+            <div class="split-right">
+              <div class="media-stage has-video" data-stage="process">
+                <video controls muted autoplay loop playsinline>
+                  <source src="assets/videos/kernel_fresnel_adaptive.mp4" type="video/mp4" />
+                  <source src="assets/videos/fresnel_b_adaptive.mp4" type="video/mp4" />
+                </video>
+                <div class="media-caption">真实刀位 · XZB 法向跟随 / B 姿态 · NC 同步</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5 Analyze -->
+        <section class="slide" data-id="5" data-title="分析补正">
+          <div class="split">
+            <div class="split-left">
+              <div class="sec-label">05 · 分析 · 补正 · 输出</div>
+              <h2>测量闭环回到同一工程</h2>
+              <div class="choice-list" data-panel="analyze">
+                <button type="button" class="choice is-on" data-key="form"
+                  data-media="assets/shots/poster_metro.png"
+                  data-video="assets/videos/kernel_metrology.mp4"
+                  data-caption="面型热图 · 截面 · 功率谱联动动画"
+                  data-body="导入测量、去基准、PV/RMS/粗糙度；联看热图、三维与功率谱。示例残余 PV 229 nm / RMS 33 nm。">
+                  <span class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M3 17l5-7 4 4 4-6 5 9H3z" stroke="currentColor" stroke-width="1.5"/></svg></span>
+                  <span><strong>面型分析</strong><small>PV · RMS · 频谱</small></span>
+                </button>
+                <button type="button" class="choice" data-key="comp"
+                  data-media="assets/shots/poster_comp.png"
+                  data-caption="系数补正图表 · 残差到新处方"
+                  data-body="非球面系数拟合补正；C0→C2 多轮 NC 累计补正，历史可回退。">
+                  <span class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18V6M4 18h16" stroke="currentColor" stroke-width="1.5"/><path d="M7 14l4-5 3 3 5-7" stroke="currentColor" stroke-width="1.5"/></svg></span>
+                  <span><strong>系数 / NC 补正</strong><small>多轮累计</small></span>
+                </button>
+                <button type="button" class="choice" data-key="nc"
+                  data-media="assets/shots/nc_preview.jpg"
+                  data-video="assets/videos/kernel_xyz_ruling.mp4"
+                  data-caption="XYZ 刨削 NC 预览 · 交付案例 08"
+                  data-body="主/子/宏回放；三轴刨削程序行联动；与五轴车削案例分离。">
+                  <span class="ico"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9h6M7 12h10M7 15h8" stroke="currentColor" stroke-width="1.4"/></svg></span>
+                  <span><strong>NC 预览与后处理</strong><small>XYZ</small></span>
+                </button>
+              </div>
+              <div class="stat-row">
+                <div class="stat"><b>229</b><span>示例 PV nm</span></div>
+                <div class="stat"><b>33</b><span>示例 RMS nm</span></div>
+                <div class="stat"><b>C0→C2</b><span>累计补正</span></div>
+              </div>
+              <div class="body-box" data-body-for="analyze">导入测量、去基准、PV/RMS/粗糙度；联看热图、三维与功率谱。示例残余 PV 229 nm / RMS 33 nm。</div>
+              <div class="aside-fill">
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><path d="M3 17l5-7 4 4 4-6 5 9H3z" stroke="currentColor" stroke-width="1.5"/></svg></div>
+                  <strong>面型热图</strong>
+                  <p>评价区域、去基准与 PV/RMS 一次完成。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18V6M4 18h16" stroke="currentColor" stroke-width="1.5"/><path d="M7 14l4-5 3 3 5-7" stroke="currentColor" stroke-width="1.5"/></svg></div>
+                  <strong>系数补正</strong>
+                  <p>拟合新处方，对照残差曲线可回退。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9h6M7 12h10M7 15h8" stroke="currentColor" stroke-width="1.4"/></svg></div>
+                  <strong>NC 预览</strong>
+                  <p>刀路与程序行高亮同步回放。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.5"/></svg></div>
+                  <strong>650FG 宏</strong>
+                  <p>后处理与指令库支撑现场输出。</p>
+                </article>
+              </div>
+            </div>
+            <div class="split-right">
+              <div class="media-stage has-video" data-stage="analyze">
+                <video controls muted autoplay loop playsinline>
+                  <source src="assets/videos/kernel_metrology.mp4" type="video/mp4" />
+                </video>
+                <div class="media-caption">面型热图 · 截面 · 功率谱联动动画</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6 Cases -->
+        <section class="slide" data-id="6" data-title="编程案例">
+          <div class="cases-layout">
+            <div class="sec-label">06 · 复杂零件编程案例</div>
+            <h2>参数 → 策略 → 刀轨（4K 计算结果回放）</h2>
+            <div class="case-tabs" data-panel="cases">
+              <button type="button" class="tab is-on" data-key="fresnel">菲涅尔</button>
+              <button type="button" class="tab" data-key="free">自由曲面</button>
+              <button type="button" class="tab" data-key="array">微透镜阵列</button>
+              <button type="button" class="tab" data-key="special">微结构 / 专用</button>
+            </div>
+            <div class="case-body">
+              <div class="case-pane is-on" data-pane="fresnel">
+                <div class="case-cards">
+                  <button type="button" class="case-card is-on"
+                    data-media="assets/shots/contact_stable.png"
+                    data-video="assets/videos/kernel_fresnel_stable.mp4"
+                    data-caption="B轴稳定 · 真实刀位 + NC 暗色回放"
+                    data-body="全R刀 · 连续齿面固定角 · 刀位与 NC 同步">
+                    <strong>B 轴稳定</strong>
+                    <span>内核刀轨</span>
+                  </button>
+                  <button type="button" class="case-card"
+                    data-media="assets/shots/contact_adaptive.png"
+                    data-video="assets/videos/kernel_doe_stable.mp4"
+                    data-caption="DOE66 全R稳定 · 交付案例 03 · XZB"
+                    data-body="衍射元件 DOE66 · 与 dense48 自适应案例参数分离">
+                    <strong>DOE 全R</strong>
+                    <span>案例 03</span>
+                  </button>
+                  <button type="button" class="case-card"
+                    data-media="assets/shots/poster_fresnel48.png"
+                    data-video="assets/videos/kernel_profile_xzc.mp4"
+                    data-caption="轮廓单元 · 交付案例 04 · XZC"
+                    data-body="椭圆/轮廓单元 · 与菲涅尔接触 / DOE 案例参数分离">
+                    <strong>轮廓 XZC</strong>
+                    <span>案例 04</span>
+                  </button>
+                  <button type="button" class="case-card"
+                    data-media="assets/shots/poster_xyzb.png"
+                    data-video="assets/videos/kernel_fresnel_edges_xyzb.mp4"
+                    data-caption="菲涅尔尖刀 · 交付案例 02 · XYZB"
+                    data-body="齿缘左右刃 · 非柱面刨削 · 轴系合同 XYZB">
+                    <strong>齿缘 XYZB</strong>
+                    <span>案例 02</span>
+                  </button>
+                </div>
+              </div>
+              <div class="case-pane" data-pane="free">
+                <div class="case-cards">
+                  <button type="button" class="case-card is-on"
+                    data-media="assets/shots/poster_freeform.png"
+                    data-video="assets/videos/kernel_sts_nc.mp4"
+                    data-caption="XZC 慢刀 · native XZC.nc · 词序 C X Z"
+                    data-body="原生预览 STS · 与案例 07 自由曲面慢刀参数分离">
+                    <strong>XZC 慢刀</strong>
+                    <span>native STS</span>
+                  </button>
+                  <button type="button" class="case-card"
+                    data-media="assets/shots/poster_freeform.png"
+                    data-video="assets/videos/kernel_xyzcb_ruling.mp4"
+                    data-caption="XYZCB 五轴刨削 · 交付案例 08"
+                    data-body="C+B 姿态刨削 · 与三轴 XYZ / 柱面 XYZB 分离">
+                    <strong>XYZCB 刨削</strong>
+                    <span>案例 08</span>
+                  </button>
+                  <button type="button" class="case-card"
+                    data-media="assets/shots/poster_xyzb.png"
+                    data-video="assets/videos/kernel_profile_xyzc.mp4"
+                    data-caption="阵列车削单元 · 交付案例 06 · XYZC"
+                    data-body="四轴轮廓单元 · 与柱面 XYZB / 三轴 XYZ 分离">
+                    <strong>XYZC 单元</strong>
+                    <span>案例 06</span>
+                  </button>
+                  <button type="button" class="case-card"
+                    data-media="assets/shots/case_grind.jpg"
+                    data-video="assets/videos/kernel_grind.mp4"
+                    data-caption="高阶偶次非球面示意磨削"
+                    data-body="D30/R60/K−1.2 · 与交付案例 09 曲面磨削分离">
+                    <strong>高阶磨削示意</strong>
+                    <span>多层切深</span>
+                  </button>
+                </div>
+              </div>
+              <div class="case-pane" data-pane="array">
+                <div class="case-cards">
+                  <button type="button" class="case-card is-on"
+                    data-media="assets/shots/poster_array.png"
+                    data-video="assets/videos/kernel_mla_spiral.mp4"
+                    data-caption="MLA 螺旋铣 · XYZABC · 等轴测真实 NC"
+                    data-body="交付案例 11 · 37 颗双处方 · 双锥基面 · 单元螺旋铣 XYZABC · 3D 等轴测">
+                    <span class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M12 4a8 8 0 1 1-5.6 2.4" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg></span>
+                    <strong>螺旋铣削</strong>
+                    <span>XYZABC</span>
+                  </button>
+                  <button type="button" class="case-card"
+                    data-media="assets/shots/process_array.jpg"
+                    data-video="assets/videos/kernel_mla_raster.mp4"
+                    data-caption="MLA 法向光栅 · XYZB · 等轴测真实 NC"
+                    data-body="交付案例 12 · 砂轮法向光栅磨削 · 轴系合同 XYZB · 3D 等轴测">
+                    <span class="ico"><svg viewBox="0 0 24 24" fill="none"><path d="M5 6h14M5 10h14M5 14h14M5 18h14" stroke="currentColor" stroke-width="1.5"/></svg></span>
+                    <strong>法向光栅</strong>
+                    <span>XYZB</span>
+                  </button>
+                  <button type="button" class="case-card"
+                    data-media="assets/shots/flow_param_array.png"
+                    data-video="assets/videos/kernel_mla_sts.mp4"
+                    data-caption="MLA 整面慢刀 · XZC · 等轴测真实 NC"
+                    data-body="交付案例 13 · 整面 STS · 轴系合同 XZC · 3D 等轴测">
+                    <span class="ico"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M12 4v8l5 3" stroke="currentColor" stroke-width="1.5"/></svg></span>
+                    <strong>整面慢刀</strong>
+                    <span>XZC</span>
+                  </button>
+                </div>
+              </div>
+              <div class="case-pane" data-pane="special">
+                <div class="case-cards">
+                  <button type="button" class="case-card is-on"
+                    data-media="assets/shots/poster_roll.png"
+                    data-video="assets/videos/kernel_roll.mp4"
+                    data-caption="光辊 · roll_core · D60×L95 · 18°/0.15"
+                    data-body="OpticsCAM roll_core 内核重算 NC · 与 D80×L120 交付案例分离">
+                    <strong>光辊</strong>
+                    <span>D60 roll_core</span>
+                  </button>
+                  <button type="button" class="case-card"
+                    data-media="assets/shots/poster_dcut.png"
+                    data-video="assets/videos/kernel_dcut_quartic.mp4"
+                    data-caption="D-CUT 四次内腔 · 交付案例 15 · XZC"
+                    data-body="多项式内腔 · 与壁面内腔案例参数分离">
+                    <strong>D-CUT 四次</strong>
+                    <span>案例 15</span>
+                  </button>
+                  <button type="button" class="case-card"
+                    data-media="assets/shots/poster_diffractive.png"
+                    data-video="assets/videos/kernel_micro_delivery.mp4"
+                    data-caption="Wave25 · 25条波形沟槽 · XYZABC 接触刀轨"
+                    data-body="双曲率基面上 25 条正弦波微沟槽 · micro_ruling 真实接触点 / NC">
+                    <strong>六轴微结构</strong>
+                    <span>Wave25 波形沟</span>
+                  </button>
+                </div>
+              </div>
+              <div class="case-stage">
+                <div class="media-stage has-video" data-stage="cases">
+                  <video controls muted autoplay loop playsinline>
+                    <source src="assets/videos/kernel_fresnel_stable.mp4" type="video/mp4" />
+                    <source src="assets/videos/fresnel_b_stable.mp4" type="video/mp4" />
+                  </video>
+                  <div class="media-caption">B轴稳定 · 真实刀位 + NC 暗色回放</div>
+                </div>
+                <div class="body-box" data-body-for="cases">全R刀 · 连续齿面固定角 · 刀位与 NC 同步</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7 Compare -->
+        <section class="slide" data-id="7" data-title="流程对比">
+          <div class="split">
+            <div class="split-left wide">
+              <div class="sec-label">07 · 工作流程比较</div>
+              <h2>差异在几何准备与参数化程度</h2>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>维度</th><th>NanoCAM4</th><th>DIFFSYS</th><th class="hl">OpticsCAM</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>几何准备</td><td>外部辅助面/线</td><td>点云转换</td><td class="hl">工程内参数驱动</td></tr>
+                    <tr><td>阵列/微结构</td><td>外部分组常见</td><td>离散数据</td><td class="hl">分组·基面·法向内置</td></tr>
+                    <tr><td>多轴姿态</td><td>辅助面驱动多</td><td>自主性受限</td><td class="hl">跟随加工基面法向</td></tr>
+                    <tr><td>工艺迭代</td><td>常重建辅助</td><td>转换链路长</td><td class="hl">改系数后工程内重算</td></tr>
+                    <tr><td>CAD 导入</td><td>常需重建</td><td>离散化损耗</td><td class="hl">STEP/IGES 直读原生面</td></tr>
+                    <tr><td>轴系合同</td><td>依赖后处理配置</td><td>策略受限</td><td class="hl">XZB / XZC / XYZB / XYZABC 一一对应</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="aside-fill">
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><circle cx="16" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="16" r="3" stroke="currentColor" stroke-width="1.4"/></svg></div>
+                  <strong>阵列准备</strong>
+                  <p>分组与基面同台定义，三种策略各自输出独立 NC。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16v3H4zM4 14h16v3H4z" stroke="currentColor" stroke-width="1.5"/></svg></div>
+                  <strong>柱面 XYZB</strong>
+                  <p>3D 非球面柱面直接进入刨削，刀轨与 NC 同步。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><path d="M3 18c4-12 14-12 18 0" stroke="currentColor" stroke-width="1.6"/><path d="M12 6v12" stroke="currentColor" stroke-width="1.4"/></svg></div>
+                  <strong>微结构法向</strong>
+                  <p>六轴姿态跟随加工基面法向，避免外部导引面。</p>
+                </article>
+                <article class="feat-card">
+                  <div class="fi"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18V6M4 18h16" stroke="currentColor" stroke-width="1.5"/><path d="M7 14l4-5 3 3 5-7" stroke="currentColor" stroke-width="1.5"/></svg></div>
+                  <strong>补正闭环</strong>
+                  <p>测量残差回到同一工程，系数 / NC 可多轮累计。</p>
+                </article>
+              </div>
+            </div>
+            <div class="split-right narrow">
+              <div class="media-stage has-video">
+                <video controls muted autoplay loop playsinline>
+                  <source src="assets/videos/kernel_xyzb_param.mp4" type="video/mp4" />
+                </video>
+                <div class="media-caption">柱面 XYZB 参数变体 · 步距/刀尖 R 与其它案例不同</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8 Close -->
+        <section class="slide" data-id="8" data-title="总结">
+          <div class="close-layout">
+            <div class="sec-label">08 · 三项编程改进</div>
+            <h2>把时间留给刀具与工艺判断</h2>
+            <div class="close-grid">
+              <article class="close-card">
+                <span>01</span>
+                <h3>阵列几何准备</h3>
+                <p>分组与基底直接定义，无需外部分组再导入。</p>
+              </article>
+              <article class="close-card">
+                <span>02</span>
+                <h3>微结构刀具姿态</h3>
+                <p>采用加工基面法向，省去独立姿态驱动面。</p>
+              </article>
+              <article class="close-card">
+                <span>03</span>
+                <h3>法向车削策略</h3>
+                <p>同一轮廓中选择稳定 / 自适应 / 左右刃切入。</p>
+              </article>
+            </div>
+            <div class="btn-row center">
+              <button type="button" class="btn primary" data-goto="0">返回封面</button>
+              <button type="button" class="btn ghost" data-goto="6">再看案例动画</button>
+            </div>
+            <p class="fine">OpticsCAM 2.0.159 · DKSH LabPRO · 刀轨动画来自计算结果离屏渲染（非界面录屏）</p>
+          </div>
+        </section>
+      </div>
+
+      <footer class="bottombar">
+        <button type="button" class="nav-btn" id="prev" aria-label="上一页">←</button>
+        <div class="progress"><i id="bar"></i></div>
+        <button type="button" class="nav-btn" id="next" aria-label="下一页">→</button>
+      </footer>
+    </main>
+  </div>
+
+  <div class="click-fx" id="click-fx" aria-hidden="true"></div>
+  <svg class="page-wipe" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <path id="wipe-path" d="M 0 0 H 0 V 100 H 0 Z"></path>
+  </svg>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
