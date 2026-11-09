@@ -21,11 +21,6 @@
     ncDim: "rgba(146, 163, 177, 0.42)",
   };
 
-  function headerHeight() {
-    const top = document.querySelector(".topbar");
-    return top ? Math.ceil(top.getBoundingClientRect().height) : 58;
-  }
-
   function makeView(canvas, opts) {
     const ctx = canvas.getContext("2d", { alpha: true });
     const view = {
