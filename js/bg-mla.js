@@ -13,8 +13,13 @@
 
   let data = null;
   let idx = 0;
+  let ncIdx = 0;
   let last = 0;
   const views = [];
+  const COL_NC = {
+    nc: "rgba(0, 240, 255, 0.7)",
+    ncDim: "rgba(146, 163, 177, 0.42)",
+  };
 
   function headerHeight() {
     const top = document.querySelector(".topbar");
@@ -148,8 +153,24 @@
     ctx.arc(tx, ty, 2.8, 0, Math.PI * 2);
     ctx.fill();
 
-    // Only brand word — no NC captions
-    if (view.opts.mark !== false) {
+    // Page bg: NC line scroll only (no extra captions). Hero: brand word only.
+    if (view.opts.fullPage) {
+      const nc = data.nc || [];
+      if (nc.length) {
+        const lines = 8;
+        const baseY = H - 22 - lines * 14;
+        ctx.font = "11px JetBrains Mono, ui-monospace, monospace";
+        ctx.textAlign = "left";
+        for (let i = 0; i < lines; i++) {
+          const li = (ncIdx + i) % nc.length;
+          const raw = String(nc[li]);
+          // skip comment-only meta lines that look like captions
+          if (/^\(\s*\.\.\./.test(raw)) continue;
+          ctx.fillStyle = i === lines - 3 ? COL_NC.nc : COL_NC.ncDim;
+          ctx.fillText(raw.slice(0, 68), 16, baseY + i * 14);
+        }
+      }
+    } else if (view.opts.mark !== false) {
       ctx.font = `600 ${Math.max(14, Math.round(H * 0.035))}px "Space Grotesk", "Noto Sans SC", sans-serif`;
       ctx.fillStyle = COL.mark;
       ctx.textAlign = "left";
@@ -164,7 +185,11 @@
     last = t;
     if (!reduce) {
       const steps = Math.max(1, Math.floor(dt / 16) * 4);
+      const prev = idx;
       idx = (idx + steps) % data.path.length;
+      if (idx < prev || idx % 12 < steps) {
+        ncIdx = (ncIdx + 1) % Math.max((data.nc && data.nc.length) || 1, 1);
+      }
     }
     views.forEach(drawView);
     requestAnimationFrame(tick);
